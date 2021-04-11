@@ -7,3 +7,13 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+actix-web = "3"
+actix-cors = "0.3.0"
+actix-files = "0.5.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+sqlx = { version = "0.4", features = ["chrono", "macros", "migrate", "offline", "mysql", "runtime-actix-rustls", "uuid", "sqlite"] }
+rand = "0.8.3"
+dotenv = "0.15.0"
+pwhash = "1.0.0"
+rsa = "0.3.0"
