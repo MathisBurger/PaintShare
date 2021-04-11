@@ -1,0 +1,9 @@
+[package]
+name = "PaintShare"
+version = "0.1.0"
+authors = ["handymathis@gmail..com <ot&u$SLh8q%@#5qW6js@5&BSRTpwNGCWmH*pTG!Eh5xyKewYndLT^!BWHPEebcYuj4JNkbHz>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
