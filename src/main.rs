@@ -1,6 +1,9 @@
+extern crate pretty_env_logger;
+#[macro_use] extern crate log;
+
 use actix_web::{HttpServer, App, web, middleware};
 use dotenv::dotenv;
-use sqlx::{mysql, Pool, MySql, migrate};
+use sqlx::{mysql, Pool, MySql};
 use actix_cors::Cors;
 
 mod database;
@@ -12,7 +15,9 @@ pub struct ServerData {
 }
 
 #[actix_web::main]
-async fn main() {
+async fn main() -> std::io::Result<()> {
+
+    pretty_env_logger::init();
 
     // init .env handling
     dotenv().ok();
@@ -20,10 +25,9 @@ async fn main() {
     let conn = mysql::MySqlPool::connect(&utils::enviroment_handler::load_param("DATABASE_URL"))
     .await.expect("Cannot create database connection");
 
-    migrate!("./migrations/")
+    sqlx::migrate!("./migrations/")
         .run(&conn)
-        .await
-        .ecpect("database migration failed")
+        .await.expect("Cannot run migrations");
 
     HttpServer::new(move || {
         App::new()
@@ -33,10 +37,7 @@ async fn main() {
         .route("/api", web::get().to(endpoints::default_endpoint::response))
     
     })
-    .bind("0.0.0.0:8080")
-    .expect(&format!("couldn't bind to address {}", "0.0.0.0:8080"))
+    .bind("0.0.0.0:8080")?
     .run()
     .await
-    .expect("couldn't run server");
-
 }

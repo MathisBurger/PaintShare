@@ -1,5 +1,6 @@
 use actix_web::{Responder, web};
 use serde::Serialize;
+use crate::ServerData;
 
 #[derive(Serialize)]
 struct ResponseModel {
@@ -8,7 +9,7 @@ struct ResponseModel {
     version: String
 }
 
-pub async fn response() -> impl Responder {
+pub async fn response(data: web::Data<ServerData>) -> impl Responder {
     web::HttpResponse::Ok()
         .json(ResponseModel {
             message: "All services are running".to_string(),
