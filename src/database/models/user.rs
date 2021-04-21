@@ -36,7 +36,7 @@ impl User {
 
     pub async fn check_user_existance(&self, conn: &Pool<MySql>) -> bool {
 
-        let user: Vec<User> = query_as!(User, "SELECT * FROM `user_accounts` WHERE `email`=?", self.email)
+        let user: Vec<User> = query_as!(User, "SELECT * FROM `user_accounts` WHERE `displayname`=?", self.displayname)
             .fetch_all(conn).await.unwrap();
         user.len() == 1
     }
