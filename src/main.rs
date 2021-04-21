@@ -29,12 +29,15 @@ async fn main() -> std::io::Result<()> {
         .run(&conn)
         .await.expect("Cannot run migrations");
 
+    database::service::init_tables(&conn).await;
+
     HttpServer::new(move || {
         App::new()
         .data(ServerData {db: conn.clone()})
         .wrap(middleware::Logger::default())
         .wrap(Cors::new().supports_credentials().finish())
         .route("/api", web::get().to(endpoints::default_endpoint::response))
+        .route("/api/user/register", web::post().to(endpoints::register_endpoint::response))
     
     })
     .bind("0.0.0.0:8080")?
