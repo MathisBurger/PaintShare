@@ -1,6 +1,6 @@
 CREATE TABLE `refresh_token` (
-    `ID` INT NOT NULL AUTO_INCREMENT,
+    `id` INT NOT NULL AUTO_INCREMENT,
     `username` TEXT NOT NULL , `token` TEXT NOT NULL,
-    `Deadline` DATETIME NOT NULL,
+    `deadline` DATETIME NOT NULL,
     PRIMARY KEY (`ID`)
 );

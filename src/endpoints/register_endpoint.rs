@@ -24,6 +24,7 @@ pub async fn response(
     data: web::Data<ServerData>
 ) -> impl Responder {
 
+
     let mut usr = user::User::new();
     usr.displayname = req.displayname.clone();
     usr.email = req.email.clone();
@@ -33,7 +34,7 @@ pub async fn response(
         web::HttpResponse::Ok()
             .json(crate::endpoints::error_model::ErrorResponse {
                 status: false,
-                message: "This mail address is already in use".to_string()
+                message: "This username is already in use".to_string()
             })
     } else {
         usr.password = hashing::hash(&usr.password).0;

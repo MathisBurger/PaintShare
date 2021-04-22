@@ -4,7 +4,7 @@ use sqlx::query;
 
 pub async fn create_refresh_token_table(conn: &Pool<MySql>) {
     let resp = query!("CREATE TABLE `refresh_token` (
-    `ID` INT NOT NULL AUTO_INCREMENT,
+    `id` INT NOT NULL AUTO_INCREMENT,
     `username` TEXT NOT NULL , `token` TEXT NOT NULL,
     `deadline` DATETIME NOT NULL,
     PRIMARY KEY (`ID`)

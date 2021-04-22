@@ -9,6 +9,10 @@ export class TokenlessAPI {
         let resp = await fetch(`${PREFIX}/user/register`, {
             method: "POST",
             mode: "cors",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify({
                 displayname: username,
                 email: mail,
@@ -16,6 +20,6 @@ export class TokenlessAPI {
             })
         });
 
-        return await resp.json() as RegisterResponseModel;
+        return (await resp.json()) as RegisterResponseModel;
     }
 }

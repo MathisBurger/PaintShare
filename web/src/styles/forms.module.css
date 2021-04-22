@@ -60,3 +60,9 @@
     display: grid;
     margin: -1em auto 1em;
 }
+
+@media only screen and (max-width: 680px) {
+    .loginContainer {
+        width: 90vw;
+    }
+}
