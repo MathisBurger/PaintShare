@@ -14,6 +14,11 @@ pub struct Request {
     pub password: String
 }
 
+// This endpoint try`s to login the
+// user and returns an error,
+// if it failed. If the login was successful
+// it returns a set-cookie header containing
+// the refresh token
 pub async fn response(
     req: web::Json<Request>,
     data: web::Data<ServerData>
@@ -24,24 +29,30 @@ pub async fn response(
     usr.password = req.password.clone();
 
     if !usr.check_user_existance(&data.db).await {
+
         web::HttpResponse::BadRequest()
             .json(ErrorResponse {
                 status: false,
                 message: "This user does not exist".to_string()
             })
     } else {
+
         if usr.check_login(&data.db).await {
+
             let token = RefreshToken::create_new(&data.db, &usr).await;
+
             let cookie = Cookie::build("refreshToken", &token.token)
                 .expires(OffsetDateTime::from(SystemTime::now()))
                 .path("/")
                 .secure(false)
                 .http_only(true)
                 .finish();
+
             web::HttpResponse::Ok()
                 .cookie(cookie)
                 .finish()
         } else {
+
             web::HttpResponse::BadRequest()
                 .json(ErrorResponse {
                     status: false,

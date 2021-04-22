@@ -2,6 +2,8 @@ use sqlx::Pool;
 use sqlx::MySql;
 use sqlx::query;
 
+// This function creates the refresh_token table required
+// to store all refresh token of the different user
 pub async fn create_refresh_token_table(conn: &Pool<MySql>) {
     let resp = query!("CREATE TABLE `refresh_token` (
     `id` INT NOT NULL AUTO_INCREMENT,

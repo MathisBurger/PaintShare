@@ -2,6 +2,9 @@ use sqlx::Pool;
 use sqlx::MySql;
 use sqlx::query;
 
+// This function creates the user_accounts table required
+// to store the general account data about the
+// different users
 pub async fn create_user_table(conn: &Pool<MySql>) {
     let resp = query!("CREATE TABLE `user_accounts` (
     `user_id` INT NOT NULL AUTO_INCREMENT,

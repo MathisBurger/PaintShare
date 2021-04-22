@@ -19,6 +19,9 @@ struct Response {
     message: String
 }
 
+// This endpoint inserts the new user into
+// the database, if there is no account
+// existing with given username
 pub async fn response(
     req: web::Json<Request>,
     data: web::Data<ServerData>
@@ -31,16 +34,19 @@ pub async fn response(
     usr.password = req.password.clone();
 
     if usr.check_user_existance(&data.db).await {
+
         web::HttpResponse::Ok()
             .json(crate::endpoints::error_model::ErrorResponse {
                 status: false,
                 message: "This username is already in use".to_string()
             })
     } else {
+
         usr.password = hashing::hash(&usr.password).0;
         let status = register::register(&usr, &data.db).await;
         
         if status {
+
             web::HttpResponse::Ok()
                 .json(Response {
                     status,

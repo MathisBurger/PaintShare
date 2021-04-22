@@ -4,6 +4,8 @@ use sqlx::query;
 use crate::database::models::user;
 use std::time::{UNIX_EPOCH, SystemTime};
 
+
+// This function stores a new user into the database
 pub async fn register(user: &user::User, conn: &Pool<MySql>) -> bool {
 
     let unix = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
@@ -25,8 +27,6 @@ pub async fn register(user: &user::User, conn: &Pool<MySql>) -> bool {
     ).execute(conn).await;
 
     status.is_ok()
-
-
 }
 
 
