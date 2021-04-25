@@ -9,6 +9,7 @@ use actix_cors::Cors;
 mod database;
 mod utils;
 mod endpoints;
+mod jwt;
 
 // This struct is sent
 // to every endpoint as
@@ -45,6 +46,7 @@ async fn main() -> std::io::Result<()> {
         .route("/api", web::get().to(endpoints::default_endpoint::response))
         .route("/api/user/register", web::post().to(endpoints::register_endpoint::response))
         .route("/api/auth/login", web::post().to(endpoints::auth::login_endpoint::response))
+        .route("/api/auth/accessToken", web::get().to(endpoints::auth::get_accesstoken_endpoint::response))
     
     })
     .bind("0.0.0.0:8080")?

@@ -3,6 +3,7 @@ use chrono::{NaiveDateTime, Utc};
 use crate::database::models::user::User;
 use crate::utils::random::generate_token;
 use std::time::{SystemTime, UNIX_EPOCH};
+use std::cell::Ref;
 
 // The database model for the
 // refresh_token table.
@@ -15,7 +16,24 @@ pub struct RefreshToken {
     pub deadline: NaiveDateTime
 }
 
+// implementation for printing the
+// RefreshToken struct
+impl std::fmt::Display for RefreshToken {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "----------------------\n{}\n{}\n{}\n{}\n----------------------", self.id, self.username, self.token, self.deadline)
+    }
+}
+
 impl RefreshToken {
+
+    fn new() -> RefreshToken {
+        RefreshToken {
+            id: 0,
+            username: "".to_string(),
+            token: "".to_string(),
+            deadline: chrono::NaiveDateTime::from_timestamp(SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs() as i64, 0)
+        }
+    }
 
     // This function creates an new Refresh token
     // and stores it into the database
@@ -39,6 +57,19 @@ impl RefreshToken {
             token,
             deadline
         }
+    }
+
+    // This functions checks, if a token exists and is valid.
+    // It returns the status and refresh token
+    pub async fn check_existence(&self, conn: &Pool<MySql>) -> bool {
+
+        let token: Vec<RefreshToken> = query_as!(RefreshToken, "SELECT * FROM `refresh_token` WHERE `username`=? AND `token`=? AND `deadline`>?",
+            &self.username, &self.token, &self.deadline
+        ).fetch_all(conn).await.unwrap();
+
+
+
+        token.len() == 1
     }
 }
 
