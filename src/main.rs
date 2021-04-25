@@ -1,7 +1,7 @@
 extern crate pretty_env_logger;
 #[macro_use] extern crate log;
 
-use actix_web::{HttpServer, App, web, middleware};
+use actix_web::{HttpServer, App, web};
 use dotenv::dotenv;
 use sqlx::{mysql, Pool, MySql};
 use actix_cors::Cors;
@@ -10,6 +10,7 @@ mod database;
 mod utils;
 mod endpoints;
 mod jwt;
+mod middleware;
 
 // This struct is sent
 // to every endpoint as
