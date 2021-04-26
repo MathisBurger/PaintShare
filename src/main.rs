@@ -1,7 +1,7 @@
 extern crate pretty_env_logger;
 #[macro_use] extern crate log;
 
-use actix_web::{HttpServer, App, web};
+use actix_web::{HttpServer, App, web, middleware as actix_middleware};
 use dotenv::dotenv;
 use sqlx::{mysql, Pool, MySql};
 use actix_cors::Cors;
@@ -42,7 +42,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
         .data(ServerData {db: conn.clone()})
-        .wrap(middleware::Logger::default())
+        .wrap(actix_middleware::Logger::default())
         .wrap(Cors::new().supports_credentials().finish())
         .route("/api", web::get().to(endpoints::default_endpoint::response))
         // auth

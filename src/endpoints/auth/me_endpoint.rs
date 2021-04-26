@@ -15,6 +15,6 @@ pub async fn response(req: HttpRequest) -> impl Responder {
         web::HttpResponse::Ok().json(validation.1)
     } else {
 
-        web::HttpResponse::BadRequest()
+        web::HttpResponse::BadRequest().finish()
     }
 }

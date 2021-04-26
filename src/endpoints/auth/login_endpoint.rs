@@ -1,11 +1,13 @@
 use actix_web::{web, Responder, HttpRequest, cookie::Cookie};
 use serde::{Serialize, Deserialize};
-use time::OffsetDateTime;
+use time::{OffsetDateTime, Duration};
 use crate::ServerData;
 use crate::database::models::{user::User};
 use crate::endpoints::error_model::ErrorResponse;
 use crate::database::models::refresh_token::RefreshToken;
 use std::time::{SystemTime, UNIX_EPOCH};
+use std::ops::Add;
+use actix_web::cookie::SameSite;
 
 
 #[derive(Deserialize)]
@@ -42,10 +44,17 @@ pub async fn response(
             let token = RefreshToken::create_new(&data.db, &usr).await;
 
             let cookie = Cookie::build("refreshToken", &token.token)
-                .expires(OffsetDateTime::from(SystemTime::now()))
+                .expires(OffsetDateTime::from(SystemTime::now()
+                    // UTC
+                    .add(Duration::new(7200, 0))
+                    // expire time
+                    .add(Duration::new(432000, 0))
+                ))
                 .path("/")
-                .secure(false)
+                .secure(true)// set to false for production
                 .http_only(true)
+                // Samesite only for development
+                .same_site(SameSite::None)
                 .finish();
 
             web::HttpResponse::Ok()
