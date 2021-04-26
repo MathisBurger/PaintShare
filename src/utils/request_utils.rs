@@ -1,8 +1,8 @@
 use actix_web::HttpRequest;
 
-// This function trys to get the requested cookie
-// from the request and returns false as
-// value in the tuple, if cookie not found
+/// This function trys to get the requested cookie
+/// from the request and returns false as
+/// value in the tuple, if cookie not found
 pub fn get_cookie(req: HttpRequest, name: &str) -> (bool, String) {
 
     let cookie_header = req

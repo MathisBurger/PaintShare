@@ -36,7 +36,7 @@ async fn main() -> std::io::Result<()> {
         .await.expect("Cannot run migrations");
 
 
-    database::service::init_tables(&conn).await;
+    //database::service::init_tables(&conn).await;
 
 
     HttpServer::new(move || {

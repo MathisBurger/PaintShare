@@ -17,8 +17,8 @@ pub fn hash(pwd: &str) -> (String, argon2id13::HashedPassword) {
     (texthash, hash)
 }
 
-// This functions verifies the hash and
-// returns true, if both hashes are equal
+/// This functions verifies the hash and
+/// returns true, if both hashes are equal
 pub fn verify(hash: &String, pwd: &String) -> bool {
 
     let mut padded = [0u8; 128];

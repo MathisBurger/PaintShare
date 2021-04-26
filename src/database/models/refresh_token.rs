@@ -5,10 +5,10 @@ use crate::utils::random::generate_token;
 use std::time::{SystemTime, UNIX_EPOCH};
 use std::cell::Ref;
 
-// The database model for the
-// refresh_token table.
-// It implements different functions you can run on this
-// database model
+/// The database model for the
+/// refresh_token table.
+/// It implements different functions you can run on this
+/// database model
 pub struct RefreshToken {
     pub id: i32,
     pub username: String,
@@ -16,8 +16,8 @@ pub struct RefreshToken {
     pub deadline: NaiveDateTime
 }
 
-// implementation for printing the
-// RefreshToken struct
+/// implementation for printing the
+/// RefreshToken struct
 impl std::fmt::Display for RefreshToken {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "----------------------\n{}\n{}\n{}\n{}\n----------------------", self.id, self.username, self.token, self.deadline)
@@ -35,9 +35,9 @@ impl RefreshToken {
         }
     }
 
-    // This function creates an new Refresh token
-    // and stores it into the database
-    // The refresh token is returned by the function
+    /// This function creates an new Refresh token
+    /// and stores it into the database
+    /// The refresh token is returned by the function
     pub async fn create_new(conn: &Pool<MySql>, usr: &User) -> RefreshToken {
 
         let token = generate_token();
@@ -59,8 +59,8 @@ impl RefreshToken {
         }
     }
 
-    // This functions checks, if a token exists and is valid.
-    // It returns the status and refresh token
+    /// This functions checks, if a token exists and is valid.
+    /// It returns the status and refresh token
     pub async fn check_existence(&self, conn: &Pool<MySql>) -> bool {
 
         let token: Vec<RefreshToken> = query_as!(RefreshToken, "SELECT * FROM `refresh_token` WHERE `username`=? AND `token`=? AND `deadline`>?",

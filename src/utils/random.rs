@@ -1,7 +1,7 @@
 use rand::{Rng, thread_rng};
 use rand::distributions::Alphanumeric;
 
-// generates random token
+/// generates random token
 pub fn generate_token() -> String {
 
     let token: String = thread_rng()

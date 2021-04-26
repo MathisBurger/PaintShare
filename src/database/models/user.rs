@@ -2,10 +2,10 @@ use sqlx::{Pool, MySql, query, query_as};
 use crate::utils::hashing;
 
 
-// The database model for
-// the user accounts table.
-// It implements different functions you can run on this
-// database model
+/// The database model for
+/// the user accounts table.
+/// It implements different functions you can run on this
+/// database model
 pub struct User {
     pub user_id: i32,
     pub displayname: String,
@@ -14,14 +14,15 @@ pub struct User {
     pub num_follower: i32,
     pub num_subscriptions: i32,
     pub subscriptions: String,
+    pub profile_picture: String,
     pub created_at: i64
 }
 
 impl User {
 
-    // This function returns an empty
-    // user, without storing it into the
-    // database.
+    /// This function returns an empty
+    /// user, without storing it into the
+    /// database.
     pub fn new() -> User {
 
        let mut usr = User {
@@ -32,15 +33,16 @@ impl User {
            num_follower: 0,
            num_subscriptions: 0,
            subscriptions: "".to_string(),
+           profile_picture: "".to_string(),
            created_at: 0
        };
 
         return usr;
     }
 
-    // This function checks if there already
-    // exists a user in the database identified
-    // by a unique username (displayname)
+    /// This function checks if there already
+    /// exists a user in the database identified
+    /// by a unique username (displayname)
     pub async fn check_user_existance(&self, conn: &Pool<MySql>) -> bool {
 
         let user: Vec<User> = query_as!(User, "SELECT * FROM `user_accounts` WHERE `displayname`=?", self.displayname)
@@ -49,9 +51,9 @@ impl User {
         user.len() == 1
     }
 
-    // This function checks if the given
-    // login creds are valid and the
-    // user is allowed to login
+    /// This function checks if the given
+    /// login creds are valid and the
+    /// user is allowed to login
     pub async fn check_login(&self, conn: &Pool<MySql>) -> bool {
 
         let user: User = query_as!(User, "SELECT * FROM `user_accounts` WHERE `displayname`=?", self.displayname)
@@ -60,9 +62,9 @@ impl User {
         hashing::verify(&user.password, &self.password)
     }
 
-    // This function returns the user
-    // identified by the given username
-    // from the database
+    /// This function returns the user
+    /// identified by the given username
+    /// from the database
     pub async fn get_user_by_username(&self, username: &String, conn: &Pool<MySql>) -> User {
 
         query_as!(User, "SELECT * FROM `user_accounts` WHERE `displayname`=?", username)

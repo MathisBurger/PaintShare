@@ -10,7 +10,7 @@ struct ResponseModel {
     service: String
 }
 
-// This endpoints returns the default REST information
+/// This endpoints returns the default REST information
 pub async fn response(data: web::Data<ServerData>) -> impl Responder {
     web::HttpResponse::Ok()
         .json(ResponseModel {

@@ -13,6 +13,7 @@ export default function Sidebar() {
                 <ul>
                     <li>Home</li>
                     <li>Explore</li>
+                    <li>Profile</li>
                 </ul>
             </div>
         </>

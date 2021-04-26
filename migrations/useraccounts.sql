@@ -6,6 +6,7 @@ CREATE TABLE `user_accounts` (
     `num_follower` INT NOT NULL,
     `num_subscriptions` INT NOT NULL,
     `subscriptions` TEXT NOT NULL,
+    `profile_picture` TEXT NOT NULL,
     `created_at` BIGINT NOT NULL,
     PRIMARY KEY(`user_id`)
 );

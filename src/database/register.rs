@@ -5,7 +5,7 @@ use crate::database::models::user;
 use std::time::{UNIX_EPOCH, SystemTime};
 
 
-// This function stores a new user into the database
+/// This function stores a new user into the database
 pub async fn register(user: &user::User, conn: &Pool<MySql>) -> bool {
 
     let unix = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
@@ -18,8 +18,9 @@ pub async fn register(user: &user::User, conn: &Pool<MySql>) -> bool {
     `num_follower`,
     `num_subscriptions`,
     `subscriptions`,
+    `profile_picture`,
      `created_at`
-     ) VALUES (NULL, ?, ?, ?, '0', '0', '', ?);",
+     ) VALUES (NULL, ?, ?, ?, '0', '0', '', '', ?);",
      user.displayname,
      user.email,
      user.password,

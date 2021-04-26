@@ -19,9 +19,9 @@ struct Response {
     message: String
 }
 
-// This endpoint inserts the new user into
-// the database, if there is no account
-// existing with given username
+/// This endpoint inserts the new user into
+/// the database, if there is no account
+/// existing with given username
 pub async fn response(
     req: web::Json<Request>,
     data: web::Data<ServerData>

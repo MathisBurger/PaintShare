@@ -19,10 +19,10 @@ struct Response {
 }
 
 
-// This endpoint returns a signed accessToken depending
-// on the refresh token given as a cookie
-// It returns status code 400 if signing is not
-// successful
+/// This endpoint returns a signed accessToken depending
+/// on the refresh token given as a cookie
+/// It returns status code 400 if signing is not
+/// successful
 pub async fn response(
     req: web::HttpRequest,
     data: web::Data<ServerData>,

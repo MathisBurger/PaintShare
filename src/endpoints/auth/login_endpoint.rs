@@ -16,11 +16,11 @@ pub struct Request {
     pub password: String
 }
 
-// This endpoint try`s to login the
-// user and returns an error,
-// if it failed. If the login was successful
-// it returns a set-cookie header containing
-// the refresh token
+/// This endpoint try`s to login the
+/// user and returns an error,
+/// if it failed. If the login was successful
+/// it returns a set-cookie header containing
+/// the refresh token
 pub async fn response(
     req: web::Json<Request>,
     data: web::Data<ServerData>
