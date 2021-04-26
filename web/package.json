@@ -48,6 +48,7 @@
   },
   "devDependencies": {
     "@types/react-responsive": "^8.0.2",
+    "@types/react-router-dom": "^5.1.7",
     "typescript-plugin-css-modules": "^3.2.0"
   }
 }
