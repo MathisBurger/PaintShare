@@ -4,10 +4,10 @@ use crate::jwt::verify;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 
-// This function validates the accessToken
-// and returns the validation status as boolean
-// If the validation was successful the Payload
-// of the token will also be returned
+/// This function validates the accessToken
+/// and returns the validation status as boolean
+/// If the validation was successful the Payload
+/// of the token will also be returned
 pub fn validate_access_token(req: &HttpRequest) -> (bool, BTreeMap<String, String>) {
 
     let header = req.headers().get("authorization");
@@ -28,7 +28,7 @@ pub fn validate_access_token(req: &HttpRequest) -> (bool, BTreeMap<String, Strin
 
             if header_value[0] == "accessToken" {
 
-                let verification = verify::verify(&header_value[1].to_string());
+                let verification = verify::verify_token(&header_value[1].to_string());
 
                 if verification.0 {
 

@@ -49,7 +49,7 @@ pub async fn response(
         web::HttpResponse::BadRequest().finish()
     } else {
 
-        let user = User::new().get_user_by_username(&info.username, &data.db).await;
+        let user = User::new().get_user_by_username(&info.username, &data.db).await.unwrap();
         let deadline = (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs() as i64) + 300;
         let token = jwt::sign::sign(user.user_id, deadline);
 

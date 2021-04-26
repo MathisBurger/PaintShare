@@ -50,8 +50,8 @@ async fn main() -> std::io::Result<()> {
         .route("/api/auth/login", web::post().to(endpoints::auth::login_endpoint::response))
         .route("/api/auth/accessToken", web::get().to(endpoints::auth::get_accesstoken_endpoint::response))
         .route("/api/auth/me", web::get().to(endpoints::auth::me_endpoint::response))
-
-    
+        // user API
+        .route("/api/user-api/get_profile_picture", web::get().to(endpoints::user::profile_picture_endpoint::response))
     })
     .bind("0.0.0.0:8080")?
     .run()

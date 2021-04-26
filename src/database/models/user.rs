@@ -1,4 +1,4 @@
-use sqlx::{Pool, MySql, query, query_as};
+use sqlx::{Pool, MySql, query, query_as, Error};
 use crate::utils::hashing;
 
 
@@ -65,9 +65,18 @@ impl User {
     /// This function returns the user
     /// identified by the given username
     /// from the database
-    pub async fn get_user_by_username(&self, username: &String, conn: &Pool<MySql>) -> User {
+    pub async fn get_user_by_username(&self, username: &String, conn: &Pool<MySql>) -> Result<User, Error> {
 
         query_as!(User, "SELECT * FROM `user_accounts` WHERE `displayname`=?", username)
-            .fetch_one(conn).await.unwrap()
+            .fetch_one(conn).await
+    }
+
+    /// This function returns the user
+    /// identified by the given user_id
+    /// from the database
+    pub async fn get_user_by_id(&self, id: i32, conn: &Pool<MySql>) -> Result<User, Error> {
+
+        query_as!(User, "SELECT * FROM `user_accounts` WHERE `user_id`=?", id)
+            .fetch_one(conn).await
     }
 }
