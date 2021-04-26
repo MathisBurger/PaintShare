@@ -2,9 +2,7 @@
     height: 95vh;
     width: 15vw;
     background: #e2e2e2;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    margin-top: 1em;
     margin-left: 1em;
     border-radius: 15px;
     box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
@@ -32,6 +30,8 @@
     width: 95%;
     display: grid;
     place-items: center;
+    grid-row: 1;
+    grid-template-columns: repeat(3, 1fr);
     margin-left: -0.5em;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -48,4 +48,21 @@
     background: #14abe3;
     box-shadow: 1px 1px 1px rgba(0,0,0,0.2);
     border: none;
+}
+
+.sidebar ul li .name {
+    display: block;
+}
+
+@media only screen and (max-width: 1264px) {
+    .sidebar ul li .name {
+        display: none;
+    }
+    .sidebar ul li {
+        grid-row: 1;
+        grid-template-columns: none;
+    }
+    .sidebarHeading {
+        color: #dedede;
+    }
 }
