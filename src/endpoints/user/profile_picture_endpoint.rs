@@ -6,6 +6,7 @@ use crate::jwt::verify;
 use crate::database::models::user::User;
 use crate::utils::file;
 use crate::middleware;
+use crate::endpoints::error_model::ErrorResponse;
 
 #[derive(Deserialize)]
 pub struct Query {
@@ -27,7 +28,7 @@ pub async fn response(
 
     if !verification.0 {
 
-        web::HttpResponse::Unauthorized().finish()
+        web::HttpResponse::Unauthorized().json(ErrorResponse { status: false, message: "invalid access token".to_string() })
     } else {
 
         let user_itself = match &query.user {
@@ -38,6 +39,8 @@ pub async fn response(
         let mut user = User::new();
 
         if user_itself {
+
+            println!("sad");
 
             let user_id = verification.1.get("user_id").unwrap().parse().unwrap();
             user = User::new().get_user_by_id(user_id, &data.db).await.unwrap();

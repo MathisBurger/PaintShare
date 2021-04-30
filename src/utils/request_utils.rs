@@ -10,8 +10,8 @@ pub fn get_cookie(req: HttpRequest, name: &str) -> (bool, String) {
         .get("cookie");
 
     match cookie_header {
-        Some(cookie) => {  },
-        None => {return (false, "".to_string())}
+        Some(cookie) => {},
+        None => { return (false, "".to_string()) }
     }
 
 

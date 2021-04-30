@@ -33,7 +33,8 @@ pub async fn response(
     let cookie = request_utils::get_cookie(req, "refreshToken");
 
     if !cookie.0 {
-        return web::HttpResponse::BadRequest().finish();
+
+        return web::HttpResponse::Unauthorized().finish();
     }
 
 
@@ -44,9 +45,11 @@ pub async fn response(
         deadline: chrono::NaiveDateTime::from_timestamp(SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs() as i64, 0)
     };
 
+    println!("{}", &tkn);
+
     if !tkn.check_existence(&data.db).await {
 
-        web::HttpResponse::BadRequest().finish()
+        web::HttpResponse::Unauthorized().finish()
     } else {
 
         let user = User::new().get_user_by_username(&info.username, &data.db).await.unwrap();

@@ -1,9 +1,11 @@
-import React from "react";
+import React, {useState} from "react";
 import DesignWrapper from "../components/designWrapper";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import style from "../styles/profile.module.css";
 import {useParams} from "react-router-dom";
 import {faUpload} from "@fortawesome/free-solid-svg-icons";
+import {UserAPI} from "../services/api/user";
+import {getTempURL} from "../services/utils";
 
 // This interface defines the types of the given
 // url params
@@ -15,12 +17,16 @@ export default function Profile() {
 
     const { name } = useParams<ParamTypes>();
 
+    const [url, changeURL] = useState("");
+
+    lazyLoader();
+
     return (
         <>
             <DesignWrapper>
                 <div className={style.profileOuterBox}>
                     <div className={style.profileBox}>
-                        <img src={"https://upload.wikimedia.org/wikipedia/commons/c/cd/Black_from_a_camera.jpg"} alt={"profile picture"}/>
+                        <img src={url} alt={"profile picture"}/>
                         <div className={style.rightBox}>
                             {profileBoxOptions(name)}
                             {statsBox(name)}
@@ -31,6 +37,13 @@ export default function Profile() {
             </DesignWrapper>
         </>
     );
+
+    async function lazyLoader() {
+        if (url === "") {
+            let pic_data : any = await new UserAPI().getProfilePictureURL("");
+            //changeURL(getTempURL(pic_data, pic_data.data));
+        }
+    }
 }
 
 // This function handles whether the profile page is the
@@ -109,3 +122,4 @@ function handleUploadSection(name: any): any {
         return <></>;
     }
 }
+

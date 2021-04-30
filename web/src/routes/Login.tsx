@@ -18,7 +18,8 @@ export default function Login() {
             if (!res) {
                alert("Login falied");
             } else {
-                history.push("/dashboard");
+                localStorage.setItem("username", username);
+                //history.push("/dashboard");
             }
         })
     }

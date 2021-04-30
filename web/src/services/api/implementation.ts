@@ -11,14 +11,14 @@ export class RestImplementation {
     private static accessToken: AccessToken;
 
     private static getAccessToken(): Promise<AccessToken> {
-        return this.get<AccessToken>("auth/accesstoken");
+        return this.get<AccessToken>("/auth/accesstoken?username=" + localStorage.getItem("username"));
     }
 
-    private static get<T>(path: string, emitError: boolean = true): Promise<T> {
+    public static get<T>(path: string, emitError: boolean = true): Promise<T> {
         return this.req<T>("GET", path, undefined, undefined, emitError);
     }
 
-    private static post<T>(
+    public static post<T>(
         path: string,
         body?: any,
         emitError: boolean = true
@@ -34,11 +34,13 @@ export class RestImplementation {
         contentType: string | undefined = "application/json",
         emitError: boolean = true
     ): Promise<T> {
+
         if (this.accessToken && new Date(this.accessToken.deadline) < new Date()) {
             console.log("Access token expired");
             try {
                 this.accessToken = await this.getAccessToken();
-                return this.req(method, path, body, contentType, emitError);
+                console.log(this.accessToken);
+                //return this.req(method, path, body, contentType, emitError);
             } catch (e) {
                 if (emitError) this.events.emit("error", e);
                 throw e;
@@ -63,7 +65,7 @@ export class RestImplementation {
             headers["authorization"] = "accessToken " + this.accessToken.token;
         }
 
-        const res = await window.fetch(`${PREFIX}/${path}`, {
+        const res = await window.fetch(`${PREFIX}${path}`, {
             method,
             headers,
             body: reqBody,
@@ -75,16 +77,11 @@ export class RestImplementation {
                 const resBody = (await res.json()) as ErrorModel;
                 if (resBody.message === "invalid access token") {
                     this.accessToken = await this.getAccessToken();
-                    return this.req(method, path, body, contentType, emitError);
+                    console.log(this.accessToken);
+                    //return this.req(method, path, body, contentType, emitError);
                 }
             } catch {}
             if (emitError) this.events.emit("authentication-error", res);
-            throw new Error("auth error");
-        }
-
-        if (!res.ok) {
-            if (emitError) this.events.emit("error", res);
-            throw new Error(res.statusText);
         }
 
         if (res.status === 204 || res.headers.get("content-length") === "0") {
