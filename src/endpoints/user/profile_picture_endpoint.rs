@@ -40,8 +40,6 @@ pub async fn response(
 
         if user_itself {
 
-            println!("sad");
-
             let user_id = verification.1.get("user_id").unwrap().parse().unwrap();
             user = User::new().get_user_by_id(user_id, &data.db).await.unwrap();
         } else {

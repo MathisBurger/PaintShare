@@ -45,8 +45,6 @@ pub async fn response(
         deadline: chrono::NaiveDateTime::from_timestamp(SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs() as i64, 0)
     };
 
-    println!("{}", &tkn);
-
     if !tkn.check_existence(&data.db).await {
 
         web::HttpResponse::Unauthorized().finish()
