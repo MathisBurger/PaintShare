@@ -19,7 +19,7 @@ export default function Login() {
                alert("Login falied");
             } else {
                 localStorage.setItem("username", username);
-                //history.push("/dashboard");
+                history.push("/dashboard");
             }
         })
     }

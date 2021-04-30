@@ -41,7 +41,7 @@ export default function Profile() {
     async function lazyLoader() {
         if (url === "") {
             let pic_data : any = await new UserAPI().getProfilePictureURL("");
-            //changeURL(getTempURL(pic_data, pic_data.data));
+            changeURL(getTempURL(pic_data, pic_data.data));
         }
     }
 }

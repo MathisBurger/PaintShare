@@ -20,6 +20,6 @@ export class UserAPI {
     }
 
     async getProfilePictureURL(name: any) {
-        return await RestImplementation.get("/user-api/get_profile_picture", true);
+        return await RestImplementation.get("/user-api/get_profile_picture", true, true);
     }
 }
