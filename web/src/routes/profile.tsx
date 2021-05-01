@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import DesignWrapper from "../components/designWrapper";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import style from "../styles/profile.module.css";
-import {useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import {faUpload} from "@fortawesome/free-solid-svg-icons";
 import {UserAPI} from "../services/api/user";
 import {getTempURL} from "../services/utils";
@@ -14,6 +14,8 @@ interface ParamTypes {
 }
 
 export default function Profile() {
+
+    const history = useHistory();
 
     const { name } = useParams<ParamTypes>();
 
@@ -41,7 +43,11 @@ export default function Profile() {
     async function lazyLoader() {
         if (url === "") {
             let pic_data : any = await new UserAPI().getProfilePictureURL("");
-            changeURL(getTempURL(pic_data, pic_data.data));
+            if (pic_data == null) {
+                history.push("/login");
+            } else {
+                changeURL(getTempURL(pic_data, pic_data.data));
+            }
         }
     }
 }
