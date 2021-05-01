@@ -20,6 +20,8 @@
     width: 150px;
     height: 150px;
     border-radius: 50%;
+    border: 2px solid #d0d0d0;
+    overflow: hidden;
 }
 
 .profileBox .rightBox {
@@ -98,4 +100,25 @@
 
 .uploadButton .margin {
     margin-right: 2px;
+}
+
+@media only screen and (max-width: 1265px) {
+    .profileOuterBox {
+        width: 70vw;
+    }
+    .profileBox img {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .profileOuterBox {
+        width: 95vw;
+        border: none;
+    }
+    .profileBox img {
+        width: 75px;
+        height: 75px;
+    }
 }
