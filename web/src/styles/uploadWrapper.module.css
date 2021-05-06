@@ -1,0 +1,136 @@
+.uploadContainer {
+    z-index: 1;
+    background: #d6d6d6;
+    width: 60vw;
+    height: 60vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    box-shadow: 4px 4px 4px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.uploadContainer .headContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.uploadContainer .headContainer svg {
+    position: absolute;
+    margin: 0;
+    right: -1.5em;
+    padding: 0;
+    width: 10%;
+    height: 10%;
+    transition: 1s;
+}
+
+.uploadContainer .headContainer svg:hover {
+    transform: rotate(-360deg);
+}
+
+.uploadContainer .headContainer h1 {
+    position: absolute;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.uploadContainer .bodyContainer {
+    width: 100%;
+    height: 90%;
+    background: #c0c0c1;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.uploadContainer .bodyContainer .leftContainer {
+    width: 40%;
+    height: 80%;
+    border: 1px solid #373737;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 2em;
+    overflow: hidden;
+}
+
+.uploadContainer .bodyContainer .leftContainer input {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 20px;
+    border: 1px solid #a2a1a1;
+    border-radius: 5px;
+    font-family: Roboto, sans-serif;
+    font-size: 1.2em;
+    transition: .3s;
+}
+
+.uploadContainer .bodyContainer .leftContainer input:hover {
+    box-shadow: 2px 2px 3px rgba(0,0,0,0.2);
+}
+
+.uploadContainer .bodyContainer .leftContainer img {
+    image-rendering: smooth;
+    image-resolution: inherit;
+    width: 100%;
+    height: 100%;
+}
+
+.uploadContainer .bodyContainer .rightContainer {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 80%;
+    position: absolute;
+    right: 1em;
+    top: 50%;
+    transform: translateY(-50%);
+    overflow: hidden;
+}
+
+.uploadContainer .bodyContainer .rightContainer input {
+    height: 3em;
+    border-radius: 5px;
+    border: 2px solid #acacac;
+    outline-color: #2690de;
+}
+
+.uploadContainer .bodyContainer .rightContainer .mrgn {
+    margin-top: 1em;
+}
+
+.uploadContainer .bodyContainer .rightContainer textarea {
+    margin-top: 1em;
+    border-radius: 5px;
+    border: 2px solid #acacac;
+    outline-color: #2690de;
+    height: 40%;
+    background: white;
+}
+
+.uploadContainer .bodyContainer .rightContainer button {
+    margin-top: 1em;
+    padding: 10px 0;
+    border-radius: 5px;
+    background: #2690de;
+    border: 2px solid #1e7fc6;
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.3);
+    color: white;
+    font-size: 1.5em;
+    transition: .3s;
+}
+
+.uploadContainer .bodyContainer .rightContainer button:hover {
+    filter: brightness(1.1);
+}

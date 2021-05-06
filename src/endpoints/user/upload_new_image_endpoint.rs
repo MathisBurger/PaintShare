@@ -42,10 +42,10 @@ pub async fn response(
 
             let content_type = field.content_disposition().unwrap();
             let filetype = content_type.get_filename().unwrap().split(".").collect::<Vec<&str>>().last().unwrap().to_string();
-
             // checks if file has allowed extension
             let filetype_allowed = match filetype.clone().as_str() {
                 "jpeg" => true,
+                "jpg" => true,
                 _ => false
             };
 

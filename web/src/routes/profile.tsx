@@ -6,6 +6,8 @@ import {useHistory, useParams} from "react-router-dom";
 import {faUpload} from "@fortawesome/free-solid-svg-icons";
 import {UserAPI} from "../services/api/user";
 import {getTempURL} from "../services/utils";
+import UploadContainer from "../components/uploadContainer";
+import ReactDOM from "react-dom";
 
 // This interface defines the types of the given
 // url params
@@ -20,11 +22,13 @@ export default function Profile() {
     const { name } = useParams<ParamTypes>();
 
     const [url, changeURL] = useState("");
+    const [showUpload, changeShowUpload] = useState(false);
 
     lazyLoader();
 
     return (
         <>
+            {showUpload ? <UploadContainer /> : null}
             <DesignWrapper>
                 <div className={style.profileOuterBox}>
                     <div className={style.profileBox}>
@@ -34,7 +38,7 @@ export default function Profile() {
                             {statsBox(name)}
                         </div>
                     </div>
-                    {handleUploadSection(name)}
+                    {handleUploadSection(name, changeShowUpload)}
                 </div>
             </DesignWrapper>
         </>
@@ -112,14 +116,15 @@ function statsBox(name: any): any {
     }
 }
 
-function handleUploadSection(name: any): any {
+function handleUploadSection(name: any, changePopupState: any): any {
 
     if (name === undefined) {
 
         return (
             <>
                 <div className={style.hr} />
-                <button className={style.uploadButton} ><FontAwesomeIcon icon={faUpload} className={style.margin}/>Upload</button>
+                <button className={style.uploadButton} onClick={e => changePopupState(true)}
+                ><FontAwesomeIcon icon={faUpload} className={style.margin}/>new post</button>
                 <div className={style.hr} />
             </>
         );

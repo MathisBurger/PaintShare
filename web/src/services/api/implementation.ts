@@ -22,9 +22,10 @@ export class RestImplementation {
     public static post<T>(
         path: string,
         body?: any,
-        emitError: boolean = true
+        emitError: boolean = true,
+        contentType: string | undefined = "application/json"
     ): Promise<T> {
-        return this.req<T>("POST", path, body, undefined, emitError);
+        return this.req<T>("POST", path, body, contentType, emitError);
     }
 
 
@@ -37,19 +38,14 @@ export class RestImplementation {
         counter: number = 0,
         blob: boolean = false
     ): Promise<T> {
-        console.log(blob);
 
         if (this.accessToken && new Date(+this.accessToken.deadline * 1000) < new Date()) {
-            console.log(counter);
-            console.log("Access token expired");
             try {
                 if (counter > 3) {
                     return "expired" as any;
                 }
                 this.accessToken = await this.getAccessToken();
-                console.log(this.accessToken);
                 let newCounter = counter + 1;
-                console.log(newCounter);
                 return this.req(method, path, body, contentType, emitError, newCounter, blob);
             } catch (e) {
                 if (emitError) this.events.emit("error", e);
@@ -97,7 +93,6 @@ export class RestImplementation {
                     }
                 } else {
                     this.accessToken = await this.getAccessToken();
-                    console.log(this.accessToken);
                     if (counter < 3) {
                         return this.req(method, path, body, contentType, emitError, counter + 1, blob);
                     } else {
