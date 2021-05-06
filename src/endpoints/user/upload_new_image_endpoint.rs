@@ -46,6 +46,7 @@ pub async fn response(
             let filetype_allowed = match filetype.clone().as_str() {
                 "jpeg" => true,
                 "jpg" => true,
+                "png" => true,
                 _ => false
             };
 
