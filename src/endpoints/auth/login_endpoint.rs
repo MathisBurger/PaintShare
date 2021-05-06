@@ -3,7 +3,7 @@ use serde::{Serialize, Deserialize};
 use time::{OffsetDateTime, Duration};
 use crate::ServerData;
 use crate::database::models::{user::User};
-use crate::endpoints::error_model::ErrorResponse;
+use crate::endpoints::models::error_model::ErrorResponse;
 use crate::database::models::refresh_token::RefreshToken;
 use std::time::{SystemTime, UNIX_EPOCH};
 use std::ops::Add;

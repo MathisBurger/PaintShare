@@ -1,6 +1,7 @@
 use std::time::{SystemTime, UNIX_EPOCH};
-use sqlx::{query, MySql, Pool};
+use sqlx::{query, MySql, Pool, query_as};
 use crate::utils::storage::generate_post_path;
+use crate::database::models::user::User;
 
 
 /// The database model for the
@@ -57,5 +58,14 @@ impl Post {
             tags: "".to_string(),
             created_at: timestamp
         }
+    }
+
+    /// This function returns the data of all
+    /// posts a user has posted on his
+    /// profile as Vec<Post>
+    pub async fn get_all_posts_of_user(conn: &Pool<MySql>, user_id: i32) -> Vec<Post> {
+        let posts: Vec<Post> = query_as!(Post, "SELECT * FROM `user_posts` WHERE `user_id`=?", user_id)
+            .fetch_all(conn).await.unwrap();
+        posts
     }
 }

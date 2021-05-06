@@ -36,7 +36,7 @@ pub async fn response(
     if usr.check_user_existance(&data.db).await {
 
         web::HttpResponse::Ok()
-            .json(crate::endpoints::error_model::ErrorResponse {
+            .json(crate::endpoints::models::error_model::ErrorResponse {
                 status: false,
                 message: "This username is already in use".to_string()
             })
@@ -55,7 +55,7 @@ pub async fn response(
         } else {
             
             web::HttpResponse::Ok()
-                .json(crate::endpoints::error_model::ErrorResponse {
+                .json(crate::endpoints::models::error_model::ErrorResponse {
                     status,
                     message: "Error while creating user account".to_string()
                 })

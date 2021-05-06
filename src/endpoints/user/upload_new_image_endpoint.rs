@@ -2,7 +2,7 @@ use actix_web::{Responder, HttpRequest, web, HttpResponse, Error};
 use crate::ServerData;
 use crate::middleware;
 use serde::{Serialize, Deserialize};
-use crate::endpoints::error_model::ErrorResponse;
+use crate::endpoints::models::error_model::ErrorResponse;
 use crate::database::models::posts::Post;
 use crate::utils::storage;
 use actix_web::web::Bytes;

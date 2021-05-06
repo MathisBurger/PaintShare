@@ -6,12 +6,9 @@ use crate::jwt::verify;
 use crate::database::models::user::User;
 use crate::utils::file;
 use crate::middleware;
-use crate::endpoints::error_model::ErrorResponse;
+use crate::endpoints::models::error_model::ErrorResponse;
+use crate::utils::user_handler::Query;
 
-#[derive(Deserialize)]
-pub struct Query {
-    pub user: Option<String>
-}
 
 /// This endpoint is made for requesting profile pictures.
 /// You can add the "user" request param to get the profile picture
