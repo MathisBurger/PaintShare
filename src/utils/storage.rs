@@ -1,10 +1,11 @@
 use std::fs;
 use crate::utils::random::generate_token;
-use std::io::Write;
+use std::io::{Write, Read};
 use std::future::Future;
 use actix_web::{Error, dev, error};
 use rand::Rng;
 use futures::future;
+use std::fs::File;
 
 /// This function generates a random filename
 /// and returns the name as string
@@ -38,4 +39,15 @@ pub fn write_bytes_to_file(destination: &String, data: &actix_web::web::Bytes) {
         let bytes_written = buffer.write(&data[pos..]).unwrap();
         pos += bytes_written;
     }
+}
+
+/// This function reads the binary data
+/// of a file and returns it as Vec<u8>
+pub fn read_file_to_bytes(filename: &String) -> Vec<u8> {
+    let mut f = File::open(&filename).expect("no file found");
+    let metadata = fs::metadata(&filename).expect("unable to read metadata");
+    let mut buffer = vec![0; metadata.len() as usize];
+    f.read(&mut buffer).expect("buffer overflow");
+
+    buffer
 }

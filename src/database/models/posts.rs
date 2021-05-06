@@ -1,5 +1,5 @@
 use std::time::{SystemTime, UNIX_EPOCH};
-use sqlx::{query, MySql, Pool, query_as};
+use sqlx::{query, MySql, Pool, query_as, Error};
 use crate::utils::storage::generate_post_path;
 use crate::database::models::user::User;
 
@@ -67,5 +67,12 @@ impl Post {
         let posts: Vec<Post> = query_as!(Post, "SELECT * FROM `user_posts` WHERE `user_id`=?", user_id)
             .fetch_all(conn).await.unwrap();
         posts
+    }
+
+    /// This function queries a specific post by it`s id and returns it
+    /// as the post database model
+    pub async fn get_post_by_id(conn: &Pool<MySql>, post_id: i32) -> Result<Post, Error> {
+        query_as!(Post, "SELECT * FROM `user_posts` WHERE `id`=?", post_id)
+            .fetch_one(conn).await
     }
 }

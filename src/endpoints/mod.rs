@@ -3,3 +3,4 @@ pub mod register_endpoint;
 pub mod auth;
 pub mod user;
 pub mod models;
+pub mod post;
