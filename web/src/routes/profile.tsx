@@ -42,7 +42,7 @@ export default function Profile() {
 
     async function lazyLoader() {
         if (url === "") {
-            let pic_data : any = await new UserAPI().getProfilePictureURL("");
+            let pic_data : any = await new UserAPI().getProfilePictureURL(name);
             if (pic_data == null) {
                 history.push("/login");
             } else {

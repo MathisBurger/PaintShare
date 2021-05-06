@@ -26,6 +26,9 @@ impl std::fmt::Display for RefreshToken {
 
 impl RefreshToken {
 
+    /// This function generates a completely new
+    /// instance of an empty refresh token,
+    /// but don`t saves it to the database
     fn new() -> RefreshToken {
         RefreshToken {
             id: 0,
@@ -40,7 +43,7 @@ impl RefreshToken {
     /// The refresh token is returned by the function
     pub async fn create_new(conn: &Pool<MySql>, usr: &User) -> RefreshToken {
 
-        let token = generate_token();
+        let token = generate_token(256);
 
         let mut unix = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
         unix = unix + 432000;

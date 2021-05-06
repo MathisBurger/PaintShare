@@ -1,7 +1,7 @@
 extern crate pretty_env_logger;
 #[macro_use] extern crate log;
 
-use actix_web::{HttpServer, App, web, middleware as actix_middleware};
+use actix_web::{HttpServer, App, web, middleware as actix_middleware, HttpResponse};
 use dotenv::dotenv;
 use sqlx::{mysql, Pool, MySql};
 use actix_cors::Cors;
@@ -18,6 +18,7 @@ mod middleware;
 pub struct ServerData {
     pub db: Pool<MySql>
 }
+
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -59,6 +60,8 @@ async fn main() -> std::io::Result<()> {
         .route("/api/auth/me", web::get().to(endpoints::auth::me_endpoint::response))
         // user API
         .route("/api/user-api/get_profile_picture", web::get().to(endpoints::user::profile_picture_endpoint::response))
+        .route("/api/user-api/upload_post", web::post().to(endpoints::user::upload_new_image_endpoint::response))
+
     })
     .bind("0.0.0.0:8080")?
     .run()

@@ -10,6 +10,8 @@ edition = "2018"
 actix-web = "3"
 actix-cors = "0.5.4"
 actix-files = "0.5.0"
+actix-multipart = "0.3.0"
+sanitize-filename = "0.3.0"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 sqlx = { version = "0.4", features = ["chrono", "macros", "migrate", "offline", "mysql", "runtime-actix-rustls", "uuid", "sqlite"] }
@@ -24,3 +26,4 @@ time = "0.2.6"
 jwt = "0.13.0"
 hmac = "0.10.1"
 sha2 = "0.9.3"
+futures = "0.3.14"
