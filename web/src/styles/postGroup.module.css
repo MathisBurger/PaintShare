@@ -1,7 +1,6 @@
 .postGroupContainer {
     width: 100%;
     height: 100%;
-    background: #61dafb;
     display: grid;
     grid-template-columns: repeat(3, 33%);
     overflow-y: scroll;
