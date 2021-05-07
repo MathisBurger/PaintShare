@@ -7,7 +7,11 @@ import {faUpload} from "@fortawesome/free-solid-svg-icons";
 import {UserAPI} from "../services/api/user";
 import {getTempURL} from "../services/utils";
 import UploadContainer from "../components/uploadContainer";
-import ReactDOM from "react-dom";
+import PostGroup from "../components/postGroup";
+import {useAsync} from "react-async";
+import {Post} from "../typings/api/models/post";
+import {GetPostsResponse} from "../typings/api/GetPostsResponse";
+import PostComponent from "../components/post";
 
 // This interface defines the types of the given
 // url params
@@ -24,6 +28,13 @@ export default function Profile() {
     const [url, changeURL] = useState("");
     const [showUpload, changeShowUpload] = useState(false);
 
+    const { data } = useAsync({promiseFn: new UserAPI().getAllPosts, name: undefined});
+
+    var image_data: Post[] = [];
+    if (data?.status) {
+        image_data = (data as GetPostsResponse).posts;
+    }
+
     lazyLoader();
 
     return (
@@ -39,6 +50,9 @@ export default function Profile() {
                         </div>
                     </div>
                     {handleUploadSection(name, changeShowUpload)}
+                    <PostGroup>
+                        {handlePosts(image_data)}
+                    </PostGroup>
                 </div>
             </DesignWrapper>
         </>
@@ -53,6 +67,7 @@ export default function Profile() {
                 changeURL(getTempURL(pic_data, pic_data.data));
             }
         }
+
     }
 }
 
@@ -116,6 +131,7 @@ function statsBox(name: any): any {
     }
 }
 
+// This function handles the upload section
 function handleUploadSection(name: any, changePopupState: any): any {
 
     if (name === undefined) {
@@ -134,3 +150,10 @@ function handleUploadSection(name: any, changePopupState: any): any {
     }
 }
 
+function handlePosts(posts: Post[]) {
+    let arr = [];
+    for (let i=0; i<posts.length; i++) {
+        arr.push(<PostComponent postID={posts[i].id} />);
+    }
+    return arr;
+}

@@ -1,5 +1,6 @@
 import {RestImplementation} from "./implementation";
-import {BaseResponse} from "../../../typings/api/BaseResponse";
+import {BaseResponse} from "../../typings/api/BaseResponse";
+import {GetPostsResponse} from "../../typings/api/GetPostsResponse";
 
 const PREFIX = process.env.NODE_ENV === "development" ? "http://127.0.0.1:8080/api": "/api";
 
@@ -27,8 +28,18 @@ export class UserAPI {
         return await RestImplementation.get("/user-api/get_profile_picture" + (name === undefined ? "": "?username=" + name), false, true);
     }
 
+    // This function tries to fetch the upload endpoint
+    // of the user API. It saves the multipart/form-data
+    // image to the server and saves it as a post
     async uploadPost(image: any, comment: string, tags: string): Promise<BaseResponse> {
-        console.log(image);
         return await RestImplementation.post<BaseResponse>("/user-api/upload_post?comment=" + comment + "&tags=" + tags, image, true, "multipart/form-data");
+    }
+
+    // This endpoint fetches the basic metadata of every
+    // post published by the user, who owns the given
+    // profile.
+    async getAllPosts(name: any): Promise<GetPostsResponse | BaseResponse> {
+        const path = "/user-api/get_posts" + (name === undefined ? ("&user=" + name): "");
+        return await RestImplementation.get<GetPostsResponse | BaseResponse>(path);
     }
 }

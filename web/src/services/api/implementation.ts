@@ -84,7 +84,6 @@ export class RestImplementation {
                     const resBody = (await res.json()) as ErrorModel;
                     if (resBody.message === "invalid access token") {
                         this.accessToken = await this.getAccessToken();
-                        console.log(this.accessToken);
                         if (counter < 3) {
                             return this.req(method, path, body, contentType, emitError, counter + 1, blob);
                         } else {
