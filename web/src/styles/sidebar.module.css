@@ -1,12 +1,11 @@
 .sidebar {
     height: 95vh;
     width: 15vw;
-    background: #e2e2e2;
     margin-top: 1em;
     margin-left: 1em;
     border-radius: 15px;
-    box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
     overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.2);
 }
 
 .sidebarHeading {
@@ -14,7 +13,6 @@
     font-size: 1.8em;
     display: grid;
     place-items: center;
-    background: #dedede;
     padding: 0.5em 0.2em 0.2em;
     box-shadow: 1px 1px 1px rgba(0,0,0,0.2);
 }

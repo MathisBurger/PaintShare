@@ -12,6 +12,7 @@ import {useAsync} from "react-async";
 import {Post} from "../typings/api/models/post";
 import {GetPostsResponse} from "../typings/api/GetPostsResponse";
 import PostComponent from "../components/post";
+import PostView from "../components/postView";
 
 // This interface defines the types of the given
 // url params
@@ -39,6 +40,7 @@ export default function Profile() {
 
     return (
         <>
+            <PostView postID={18} />
             {showUpload ? <UploadContainer /> : null}
             <DesignWrapper>
                 <div className={style.profileOuterBox}>
