@@ -2,7 +2,13 @@
     width: 100%;
     height: fit-content;
     display: grid;
-    grid-template-columns: repeat(3, 33%);
+    grid-template-columns: repeat(3, 1fr);
     overflow-y: scroll;
     overflow-x: hidden;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.postGroupContainer::-webkit-scrollbar {
+    display: none;
 }

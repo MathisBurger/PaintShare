@@ -1,12 +1,16 @@
 .post {
     width: 100%;
-    background: #a2a1a1;
     transition: .3s;
     height: 0;
     padding-top: 100%;
     margin: 0;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
+
 
 .post:hover {
     box-shadow: 4px 4px 4px rgba(0,0,0,0.4);
+    transform: scale(1.01);
 }
