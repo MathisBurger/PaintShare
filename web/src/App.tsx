@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 // @ts-ignore
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {BrowserRouter as Router, Redirect, Route, Switch} from "react-router-dom";
 
 import Login from "./routes/Login";
 import Register from "./routes/Register";
@@ -16,7 +16,8 @@ function App() {
         <Route path={"/register"} component={Register} />
         <Route path={"/dashboard"} component={Dashboard} />
         <Route path={"/profile"} component={Profile} />
-          <Route path={"/user/:name"} component={Profile} />
+        <Route path={"/user/:name"} component={Profile} />
+        <Redirect to={"/dashboard"} />
       </Switch>
     </Router>
   );
