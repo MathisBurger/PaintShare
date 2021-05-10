@@ -14,6 +14,8 @@ pub struct Post {
     pub storage_destination: String,
     pub comment: String,
     pub tags: String,
+    pub likes: i32,
+    pub comments: i32,
     pub created_at: i64
 }
 
@@ -30,6 +32,8 @@ impl Post {
             storage_destination: "".to_string(),
             comment: "".to_string(),
             tags: "".to_string(),
+            likes: 0,
+            comments: 0,
             created_at: 0
         }
     }
@@ -47,7 +51,7 @@ impl Post {
     ) -> Post {
 
         let timestamp = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs() as i64;
-        query!("INSERT INTO `user_posts` (`id`, `user_id`, `storage_destination`, `comment`, `tags`, `created_at`) VALUES (NULL, ?, ?, ?, ?, ?);",
+        query!("INSERT INTO `user_posts` (`id`, `user_id`, `storage_destination`, `comment`, `tags`, `likes`, `comments`, `created_at`) VALUES (NULL, ?, ?, ?, ?, '0', '0', ?);",
             user_id, &storage_destination, comment, tags, &timestamp
         ).execute(conn).await.unwrap();
         Post {
@@ -56,6 +60,8 @@ impl Post {
             storage_destination,
             comment: "".to_string(),
             tags: "".to_string(),
+            likes: 0,
+            comments: 0,
             created_at: timestamp
         }
     }
