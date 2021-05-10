@@ -6,6 +6,8 @@ pub struct PostModel {
     pub owner_id: i32,
     pub id: i32,
     pub comment: String,
+    pub likes: i32,
+    pub comments: i32,
     pub created_at: i64
 }
 
@@ -19,6 +21,8 @@ impl PostModel {
             owner_id: post.user_id,
             id: post.id,
             comment: post.comment,
+            likes: post.likes,
+            comments: post.comments,
             created_at: post.created_at
         }
     }

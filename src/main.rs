@@ -64,6 +64,7 @@ async fn main() -> std::io::Result<()> {
         .route("/api/user-api/get_posts", web::get().to(endpoints::user::get_user_posts_endpoint::response))
         // post API
         .route("/api/post-api/get_post_image", web::get().to(endpoints::post::get_post_image::response))
+        .route("/api/post-api/get_post_data", web::get().to(endpoints::post::get_post_data::response))
     })
     .bind("0.0.0.0:8080")?
     .run()
