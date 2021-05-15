@@ -20,3 +20,34 @@
     background-position: center;
     background-size: cover;
 }
+
+.postViewRightContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.postViewHeader {
+    display: flex;
+    flex-direction: row;
+}
+
+.postViewHeader img {
+    border-radius: 50%;
+    border: 2px solid #d0d0d0;
+    height: 6vh;
+    width: 6vh;
+    margin: 10px 10px;
+}
+
+.postViewHeader a {
+    font-weight: bold;
+    font-size: 1.5em;
+    color: black;
+    text-decoration: none;
+    text-align: center;
+    margin: calc(2.7vh) 10px;
+}
+
+.postViewHeader a:hover {
+    text-decoration: underline black;
+}

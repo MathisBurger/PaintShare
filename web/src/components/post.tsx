@@ -6,18 +6,11 @@ import {PostAPI} from "../services/api/posts";
 
 export default function PostComponent(postID: any) {
 
-    const {data} = useAsync({promiseFn: new PostAPI().getPostImage, post_id: postID})
+    const {data} = useAsync({promiseFn: new PostAPI().getPostImageWithHook, post_id: postID})
 
     const background = {
         backgroundImage: `url(${data})`
     };
 
-    return (
-        <>
-            <div className={style.post} style={background}>
-            </div>
-        </>
-    );
-
-
+    return <div className={style.post} style={background} />;
 }

@@ -29,6 +29,18 @@ export default function Profile() {
     const [url, changeURL] = useState("");
     const [showUpload, changeShowUpload] = useState(false);
 
+    const [showPostView, changeShowPostView] = useState(false);
+    const [showedPostID, changeShowedPostID] = useState(0);
+
+    const showPost = (postID: number) => {
+        changeShowedPostID(postID);
+        changeShowPostView(true);
+    }
+
+    const closePostView = () => {
+        changeShowPostView(false);
+    }
+
     const { data } = useAsync({promiseFn: new UserAPI().getAllPosts, name: undefined});
 
     var image_data: Post[] = [];
@@ -40,7 +52,7 @@ export default function Profile() {
 
     return (
         <>
-            <PostView postID={18} />
+            {showPostView ? <PostView postID={showedPostID} closer={closePostView}/> : null}
             {showUpload ? <UploadContainer /> : null}
             <DesignWrapper>
                 <div className={style.profileOuterBox}>
@@ -53,7 +65,9 @@ export default function Profile() {
                     </div>
                     {handleUploadSection(name, changeShowUpload)}
                     <PostGroup>
-                        {handlePosts(image_data)}
+                        {image_data.map((post, i) => {
+                            return <div onClick={e => showPost(post.id)}><PostComponent postID={post.id} clicker={showPost} /></div>
+                        })}
                     </PostGroup>
                 </div>
             </DesignWrapper>
@@ -152,10 +166,3 @@ function handleUploadSection(name: any, changePopupState: any): any {
     }
 }
 
-function handlePosts(posts: Post[]) {
-    let arr = [];
-    for (let i=0; i<posts.length; i++) {
-        arr.push(<PostComponent postID={posts[i].id} />);
-    }
-    return arr;
-}

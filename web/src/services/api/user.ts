@@ -1,6 +1,8 @@
 import {RestImplementation} from "./implementation";
 import {BaseResponse} from "../../typings/api/BaseResponse";
 import {GetPostsResponse} from "../../typings/api/GetPostsResponse";
+import {User} from "../../typings/api/models/user";
+import {Props} from "react";
 
 const PREFIX = process.env.NODE_ENV === "development" ? "http://127.0.0.1:8080/api": "/api";
 
@@ -24,8 +26,16 @@ export class UserAPI {
     // This function tries to fetch the profile picture of
     // the given username. If the username matches undefined,
     // the api returns the profile picture of the session owner
-    async getProfilePictureURL(name: any) {
+    async getProfilePictureURL(name: any): Promise<any> {
         return await RestImplementation.get("/user-api/get_profile_picture" + (name === undefined ? "": "?username=" + name), false, true);
+    }
+
+    // This function tries to fetch the information of
+    // the user identified by the given user_id. It
+    // only returns general information about the user.
+    async getUserInformation(user_id: number): Promise<User> {
+        return await RestImplementation.get<User>(`/user-api/get_user_information?user_id=${user_id}`, true, false);
+
     }
 
     // This function tries to fetch the upload endpoint
