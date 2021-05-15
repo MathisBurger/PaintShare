@@ -24,18 +24,21 @@
 .postViewRightContainer {
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .postViewHeader {
     display: flex;
     flex-direction: row;
+    height: 15%;
+    width: calc(70vw - 70vh);
 }
 
 .postViewHeader img {
     border-radius: 50%;
     border: 2px solid #d0d0d0;
-    height: 6vh;
-    width: 6vh;
+    height: 5vh;
+    width: 5vh;
     margin: 10px 10px;
 }
 
@@ -45,9 +48,110 @@
     color: black;
     text-decoration: none;
     text-align: center;
-    margin: calc(2.7vh) 10px;
+    height: calc(5vh + 10px);
+    display: flex;
+    align-items: center;
 }
 
 .postViewHeader a:hover {
     text-decoration: underline black;
+}
+
+.postViewCommentSection {
+    height: 60%;
+    width: calc(70vw - 70vh - 20px);
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+.postViewCommentSection .comment {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-content: center;
+    align-items: center;
+    height: 1.3em;
+
+}
+
+.postViewCommentSection .comment a {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2em;
+    height: 100%;
+}
+.postViewCommentSection .comment a:hover {
+    text-decoration: underline black;
+}
+
+.postViewCommentSection .comment p {
+    height: 100%;
+    font-size: 1em;
+    padding-top: 0.2em;
+    font-family: Arial, sans-serif;
+}
+
+.postViewWriteComment {
+    width: calc(70vw - 70vh - 20px);
+    margin-right: 10px;
+    margin-left: 10px;
+    border: none;
+    height: 5%;
+    transition: .3s;
+    outline: none;
+}
+
+.postViewWriteComment:focus {
+    border-bottom: 1px solid #1e7fc6;
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+}
+
+.postViewFooter {
+    width: calc(70vw - 70vh - 20px);
+    margin-right: 10px;
+    margin-left: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, calc(calc(70vw - 70vh - 20px) / 3));
+    place-items: center;
+    height: 20%;
+}
+
+.heart {
+    background-color: red;
+    display: inline-block;
+    height: 30px;
+    margin: 0 10px;
+    position: relative;
+    top: 0;
+    transform: rotate(-45deg);
+    width: 30px;
+}
+
+.heart:before,
+.heart:after {
+    content: "";
+    background-color: red;
+    border-radius: 50%;
+    height: 30px;
+    position: absolute;
+    width: 30px;
+}
+
+.heart:before {
+    top: -15px;
+    left: 0;
+}
+
+.heart:after {
+    left: 15px;
+    top: 0;
+}
+
+.heart.unliked, .heart.unliked:before, .heart.unliked:after {
+    background-color: #b3b4b6;
 }

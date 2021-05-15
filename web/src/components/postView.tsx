@@ -43,7 +43,6 @@ export default class PostView extends React.Component<any, any>{
     }
 
     render() {
-        console.log(this.state);
         return (
             <>
                 <div className={style.postViewContainer} ref={this.wrapperRef}>
@@ -61,14 +60,28 @@ export default class PostView extends React.Component<any, any>{
                                     {this.state.userInfo?.displayname}
                                 </a>
                             </div>
+                            <div className={style.postViewCommentSection}>
+                                {this.state.postInfo?.comments.map((comment, i) => {
+                                    return (
+                                        <div className={style.comment}>
+                                            <a
+                                                href={`${window.location.protocol}//${window.location.host}/profile/${comment.owner}`}
+                                            >
+                                                {comment.owner}
+                                            </a>
+                                            <p>{comment.message}</p>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                            <input type={"text"} className={style.postViewWriteComment} placeholder={"write comment..."}/>
+                            <div className={style.postViewFooter}>
+                                <div className={`${style.heart} ${style.unliked}`} />
+                            </div>
                         </div>
                         </>
                     )
                     }
-                    <div className={style.postViewRightContainer}>
-                        <div className={style.postViewHeader}>
-                        </div>
-                    </div>
                 </div>
             </>
         );
