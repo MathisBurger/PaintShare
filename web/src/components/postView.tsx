@@ -5,6 +5,7 @@ import {PostAPI} from "../services/api/posts";
 import {UserAPI} from "../services/api/user";
 import {getTempURL} from "../services/utils";
 import {PostViewProps} from "../typings/components/postView";
+import {User} from "../typings/api/models/user";
 
 
 export default class PostView extends React.Component<any, any>{
@@ -25,7 +26,7 @@ export default class PostView extends React.Component<any, any>{
         document.addEventListener('mousedown', this.handleClickOutside);
         const url = await new PostAPI().getPostImage(this.props.postID);
         const postInfo = await new PostAPI().getPostData(this.props.postID);
-        const userInfo = await new UserAPI().getUserInformation(postInfo.post.owner_id);
+        const userInfo: User = await new UserAPI().getUserInformation(postInfo.post.owner_id);
         const profilePicture = await new UserAPI().getProfilePictureURL(userInfo.displayname);
         const profilePictureURL = getTempURL(profilePicture, profilePicture.type)
         this.setState({imageURL: url, loading: false, postInfo, userInfo, profilePictureURL});

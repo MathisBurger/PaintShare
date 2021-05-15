@@ -33,9 +33,10 @@ export class UserAPI {
     // This function tries to fetch the information of
     // the user identified by the given user_id. It
     // only returns general information about the user.
-    async getUserInformation(user_id: number): Promise<User> {
-        return await RestImplementation.get<User>(`/user-api/get_user_information?user_id=${user_id}`, true, false);
-
+    async getUserInformation(user_id: number = 0, username: string = ""): Promise<User> {
+        if (user_id !== 0) return await RestImplementation.get<User>(`/user-api/get_user_information?user_id=${user_id}`, true, false);
+        if (username !== "") return await RestImplementation.get<User>(`/user-api/get_user_information?username=${username}`, true, false);
+        else throw "wrong implementation of getUserInformation: neither user_id or username given, but one of them is required";
     }
 
     // This function tries to fetch the upload endpoint

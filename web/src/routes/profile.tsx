@@ -13,6 +13,7 @@ import {Post} from "../typings/api/models/post";
 import {GetPostsResponse} from "../typings/api/GetPostsResponse";
 import PostComponent from "../components/post";
 import PostView from "../components/postView";
+import {User} from "../typings/api/models/user";
 
 // This interface defines the types of the given
 // url params
@@ -32,6 +33,14 @@ export default function Profile() {
     const [showPostView, changeShowPostView] = useState(false);
     const [showedPostID, changeShowedPostID] = useState(0);
 
+    const [userInfo, changeUserInfo] = useState<User>({
+        displayname: "",
+        num_follower: 0,
+        num_subscriptions: 0,
+        user_id: 0
+    });
+    const [userInfoSet, changeUserInfoSet] = useState(false);
+
     const showPost = (postID: number) => {
         changeShowedPostID(postID);
         changeShowPostView(true);
@@ -48,7 +57,7 @@ export default function Profile() {
         image_data = (data as GetPostsResponse).posts;
     }
 
-    lazyLoader();
+    lazyLoader(name);
 
     return (
         <>
@@ -59,8 +68,17 @@ export default function Profile() {
                     <div className={style.profileBox}>
                         <img src={url} alt={"profile picture"}/>
                         <div className={style.rightBox}>
-                            {profileBoxOptions(name)}
-                            {statsBox(name)}
+                            {profileBoxOptions(userInfo.displayname, window.location.pathname === "/profile")}
+                            <div className={style.lowerBox}>
+                                <div className={style.content}>
+                                    <h1>{userInfo.num_follower}</h1>
+                                    <p>subs</p>
+                                </div>
+                                <div className={style.content}>
+                                    <h1>{userInfo.num_subscriptions}</h1>
+                                    <p>follows</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     {handleUploadSection(name, changeShowUpload)}
@@ -74,7 +92,7 @@ export default function Profile() {
         </>
     );
 
-    async function lazyLoader() {
+    async function lazyLoader(name: string) {
         if (url === "") {
             let pic_data : any = await new UserAPI().getProfilePictureURL(name);
             if (pic_data == null) {
@@ -83,67 +101,37 @@ export default function Profile() {
                 changeURL(getTempURL(pic_data, pic_data.data));
             }
         }
-
+        if (!userInfoSet) {
+            if (name === undefined) {
+                let nm = localStorage.getItem("username");
+                if (nm === null) {
+                    throw "username is not declared in local storage";
+                }
+                changeUserInfo(await new UserAPI().getUserInformation(0, nm));
+            } else {
+                changeUserInfo(await new UserAPI().getUserInformation(0, name));
+            }
+            changeUserInfoSet(true);
+        }
     }
 }
 
 // This function handles whether the profile page is the
 // profile page of the logged in user, or another
 // profile page of another user
-function profileBoxOptions(name: any): any {
+function profileBoxOptions(name: string, ownProfile: boolean): any {
 
-    if (name === undefined) {
+    if (ownProfile) {
         return (
             <>
                 <div className={style.upperBox}>
-                    <h2>username</h2>
+                    <h2>{name}</h2>
                     <button>edit profile</button>
                 </div>
             </>
         );
     } else {
-        return <h1>username</h1>;
-    }
-}
-
-// This function handles the style of the
-// stats box of the profile page
-function statsBox(name: any): any {
-
-    if (name === undefined) {
-       return (
-           <div className={style.lowerBox}>
-               <div className={style.content}>
-                   <h1>12</h1>
-                   <p>posts</p>
-               </div>
-               <div className={style.content}>
-                   <h1>10M</h1>
-                   <p>subs</p>
-               </div>
-               <div className={style.content}>
-                   <h1>120</h1>
-                   <p>follows</p>
-               </div>
-           </div>
-       );
-    } else {
-        return (
-            <div className={`${style.lowerBox} ${style.unowned}`}>
-                <div className={style.content}>
-                    <h1>12</h1>
-                    <p>posts</p>
-                </div>
-                <div className={style.content}>
-                    <h1>10M</h1>
-                    <p>subs</p>
-                </div>
-                <div className={style.content}>
-                    <h1>120</h1>
-                    <p>follows</p>
-                </div>
-            </div>
-        );
+        return <h1>{name}</h1>;
     }
 }
 

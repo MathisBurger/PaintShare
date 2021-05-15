@@ -7,11 +7,14 @@ use crate::endpoints::models::user_model::UserModel;
 
 #[derive(Deserialize)]
 pub struct Query {
-    pub user_id: i32
+    pub user_id: Option<i32>,
+    pub username: Option<String>
 }
 
 /// This endpoint sends all public
-/// data about the given
+/// data about the given user identified
+/// by its id or username, but not both at the
+/// same time
 pub async fn response(
     req: HttpRequest,
     data: web::Data<ServerData>,
@@ -25,10 +28,32 @@ pub async fn response(
     }
     let usr = User::new();
 
-    let user: (bool, User) = match usr.get_user_by_id(query.user_id, &data.db).await {
-        Ok(u) => (true, u),
-        Err(e) => (false, usr)
+    let user_id_exists = match &query.user_id {
+        Some(t) => true,
+        None => false
     };
+    let username_exists = match &query.username {
+        Some(t) => true,
+        None => false
+    };
+    if user_id_exists && username_exists || !user_id_exists && !username_exists {
+        return web::HttpResponse::BadRequest()
+            .json(ErrorResponse { status: false, message: "Only one parameter can be supplied at the same time to identify a user".to_string() })
+    }
+
+    let mut user: (bool, User) = (false, User::new());
+
+    if user_id_exists {
+        user = match usr.get_user_by_id(query.user_id.unwrap(), &data.db).await {
+            Ok(u) => (true, u),
+            Err(e) => (false, usr)
+        };
+    } else if username_exists {
+        user = match usr.get_user_by_username(query.username.as_ref().unwrap(), &data.db).await {
+            Ok(u) => (true, u),
+            Err(e) => (false, usr)
+        };
+    }
 
     if !user.0 {
         return web::HttpResponse::BadRequest().json(ErrorResponse { status: false, message: "No user found identified by given user_id".to_string() })
