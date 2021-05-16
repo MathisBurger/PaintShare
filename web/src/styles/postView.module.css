@@ -63,7 +63,6 @@
     margin-left: 10px;
     margin-right: 10px;
     display: flex;
-    gap: 10px;
     flex-direction: column;
     overflow-y: scroll;
 }
@@ -74,8 +73,6 @@
     gap: 10px;
     align-content: center;
     align-items: center;
-    height: 1.3em;
-
 }
 
 .postViewCommentSection .comment a {
@@ -94,6 +91,7 @@
     font-size: 1em;
     padding-top: 0.2em;
     font-family: Arial, sans-serif;
+    margin: 5px 0;
 }
 
 .postViewWriteComment {

@@ -99,6 +99,7 @@ export default class PostView extends React.Component<any, any>{
                             </div>
                             <div className={style.postViewCommentSection}>
                                 {this.state.postInfo?.comments.map((comment, i) => {
+                                    console.log(comment);
                                     return (
                                         <div className={style.comment}>
                                             <a
