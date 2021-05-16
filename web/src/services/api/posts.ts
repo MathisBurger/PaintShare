@@ -37,4 +37,11 @@ export class PostAPI {
     async likePost(post_id: number): Promise<BaseResponse> {
         return await RestImplementation.post<BaseResponse>("/post-api/like_post", {post_id: post_id});
     }
+
+    // This function adds a new comment to
+    // the given post, identified by the post_id,
+    // and sends this as request to the server
+    async addComment(post_id: number, comment: string): Promise<BaseResponse> {
+        return await RestImplementation.post<BaseResponse>("/post-api/comment_post", {post_id: post_id, comment: comment});
+    }
 }

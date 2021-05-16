@@ -35,4 +35,13 @@ impl PostComment {
             .fetch_all(conn).await.unwrap();
         posts
     }
+
+    /// This function adds a new comment
+    /// to the given post, by inserting
+    /// it into the database
+    pub async fn add_comment(conn: &Pool<MySql>, post_id: i32, comment: &String, owner: &String) {
+        query!("INSERT INTO `post_comments` (`comment_id`, `post_id`, `owner`, `message`) VALUES (NULL, ?, ?, ?);",
+            post_id, owner, comment
+        ).execute(conn).await.unwrap();
+    }
 }

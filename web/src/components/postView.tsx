@@ -8,12 +8,14 @@ import {PostViewProps} from "../typings/components/postView";
 import {User} from "../typings/api/models/user";
 import {Like} from "../typings/api/models/like";
 import {GetPostData} from "../typings/api/GetPostData";
+import {Comment} from "../typings/api/models/comment";
 
 
 export default class PostView extends React.Component<any, any>{
 
     state: PostViewProps = {
-        loading: true
+        loading: true,
+        commentField: ""
     };
     wrapperRef: React.RefObject<any>;
 
@@ -79,6 +81,34 @@ export default class PostView extends React.Component<any, any>{
         }
     }
 
+    // This function adds a new commment
+    // to the post by sending a request to
+    // the server. If this request was successful,
+    // the comment is added virtually to the local comment state
+    async addComment(event:  React.KeyboardEvent<HTMLInputElement>) {
+        if (event.key === "Enter") {
+            let resp = await new PostAPI().addComment(
+                this.state.postInfo?.post.id as number,
+                this.state.commentField
+            );
+            if (resp.status) {
+                let comments = this.state.postInfo?.comments as Comment[];
+                comments.push({
+                    comment_id: 0,
+                    post_id: this.state.postInfo?.post.id as number,
+                    owner: localStorage.getItem("username"),
+                    message: this.state.commentField
+                } as Comment);
+                this.setState({postInfo: {
+                        post: this.state.postInfo?.post,
+                        comments: comments,
+                        likes: this.state.postInfo?.likes
+                    } as GetPostData
+                });
+            }
+        }
+    }
+
     render() {
         return (
             <>
@@ -99,7 +129,6 @@ export default class PostView extends React.Component<any, any>{
                             </div>
                             <div className={style.postViewCommentSection}>
                                 {this.state.postInfo?.comments.map((comment, i) => {
-                                    console.log(comment);
                                     return (
                                         <div className={style.comment}>
                                             <a
@@ -112,7 +141,13 @@ export default class PostView extends React.Component<any, any>{
                                     );
                                 })}
                             </div>
-                            <input type={"text"} className={style.postViewWriteComment} placeholder={"write comment..."}/>
+                            <input
+                                type={"text"}
+                                className={style.postViewWriteComment}
+                                placeholder={"write comment..."}
+                                onChange={e => this.setState({commentField: e.target.value})}
+                                onKeyPress={e => this.addComment(e)}
+                            />
                             <div className={style.postViewFooter}>
                                 <div className={`${style.heart} ${
                                     checkUserLikedPost(this.state.postInfo?.likes as Like[]) ?

@@ -7,4 +7,5 @@ export interface PostViewProps {
     postInfo?: GetPostData;
     userInfo?: User;
     profilePictureURL?: string;
+    commentField: string;
 }
