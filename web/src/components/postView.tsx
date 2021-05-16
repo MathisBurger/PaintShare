@@ -77,6 +77,14 @@ export default class PostView extends React.Component<any, any>{
                             <input type={"text"} className={style.postViewWriteComment} placeholder={"write comment..."}/>
                             <div className={style.postViewFooter}>
                                 <div className={`${style.heart} ${style.unliked}`} />
+                                <div className={style.content}>
+                                    <h1>{this.state.postInfo?.post.likes}</h1>
+                                    <p>Likes</p>
+                                </div>
+                                <div className={style.content}>
+                                    <h1>{this.state.postInfo?.post.comments}</h1>
+                                    <p>Comments</p>
+                                </div>
                             </div>
                         </div>
                         </>
