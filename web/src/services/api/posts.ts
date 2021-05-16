@@ -1,6 +1,7 @@
 import {RestImplementation} from "./implementation";
 import {getTempURL} from "../utils";
 import {GetPostData} from "../../typings/api/GetPostData";
+import {BaseResponse} from "../../typings/api/BaseResponse";
 
 export class PostAPI {
 
@@ -28,5 +29,12 @@ export class PostAPI {
     // It includes comments and likes
     async getPostData(post_id: any): Promise<GetPostData> {
         return await RestImplementation.get<GetPostData>("/post-api/get_post_data?post_id=" + post_id, true, false);
+    }
+
+    // This function sends a request to the server
+    // to like the post with the given post_id
+    // as the user, who owns the active session
+    async likePost(post_id: number): Promise<BaseResponse> {
+        return await RestImplementation.post<BaseResponse>("/post-api/like_post", {post_id: post_id});
     }
 }

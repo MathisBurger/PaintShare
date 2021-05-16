@@ -81,4 +81,13 @@ impl Post {
         query_as!(Post, "SELECT * FROM `user_posts` WHERE `id`=?", post_id)
             .fetch_one(conn).await
     }
+
+    /// This function increases the total like number
+    /// of the given post by one. It does not check
+    /// if the given post exists
+    pub async fn increase_likes(conn: &Pool<MySql>, post: &Post, by: i32) {
+        query!("UPDATE `user_posts` SET `likes`=? WHERE `id`=?", post.likes + 1, post.id)
+            .execute(conn).await.unwrap();
+
+    }
 }

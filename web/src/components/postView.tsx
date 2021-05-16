@@ -6,6 +6,8 @@ import {UserAPI} from "../services/api/user";
 import {getTempURL} from "../services/utils";
 import {PostViewProps} from "../typings/components/postView";
 import {User} from "../typings/api/models/user";
+import {Like} from "../typings/api/models/like";
+import {GetPostData} from "../typings/api/GetPostData";
 
 
 export default class PostView extends React.Component<any, any>{
@@ -22,8 +24,14 @@ export default class PostView extends React.Component<any, any>{
         this.handleClickOutside = this.handleClickOutside.bind(this);
     }
 
+    // This function loads all required data
+    // from the backend, that is required
+    // to display the postView
     async componentDidMount() {
+
+        // Event to register clicks outside the view
         document.addEventListener('mousedown', this.handleClickOutside);
+
         const url = await new PostAPI().getPostImage(this.props.postID);
         const postInfo = await new PostAPI().getPostData(this.props.postID);
         const userInfo: User = await new UserAPI().getUserInformation(postInfo.post.owner_id);
@@ -32,13 +40,42 @@ export default class PostView extends React.Component<any, any>{
         this.setState({imageURL: url, loading: false, postInfo, userInfo, profilePictureURL});
     }
 
+
     componentWillUnmount() {
+        // Event to register clicks outside the view
         document.removeEventListener('mousedown', this.handleClickOutside);
     }
 
+    // Closes the postView of user clicks outside of the postView
     handleClickOutside(event: any) {
         if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
             this.props.closer();
+        }
+    }
+
+    // This function is being executed if the user
+    // likes a post. It sends the like request to
+    // the server and appends a new virtual like to
+    // the postInfo state to instantly update the like
+    // state in the frontend
+    async likePost(): Promise<void> {
+        let resp = await new PostAPI().likePost(this.state.postInfo?.post.id as number);
+        if (resp.status) {
+            let likes = this.state.postInfo?.likes;
+            likes?.push({
+                like_id: 0,
+                post_id: this.state.postInfo?.post.id,
+                owner: localStorage.getItem("username"),
+                timestamp: 0
+            } as Like);
+            this.setState({postInfo: {
+                post: this.state.postInfo?.post,
+                comments: this.state.postInfo?.comments,
+                likes: likes
+                } as GetPostData
+            });
+        } else {
+            alert(resp.message);
         }
     }
 
@@ -76,7 +113,10 @@ export default class PostView extends React.Component<any, any>{
                             </div>
                             <input type={"text"} className={style.postViewWriteComment} placeholder={"write comment..."}/>
                             <div className={style.postViewFooter}>
-                                <div className={`${style.heart} ${style.unliked}`} />
+                                <div className={`${style.heart} ${
+                                    checkUserLikedPost(this.state.postInfo?.likes as Like[]) ?
+                                        null : style.unliked
+                                }`} onClick={e => this.likePost()}/>
                                 <div className={style.content}>
                                     <h1>{this.state.postInfo?.post.likes}</h1>
                                     <p>Likes</p>
@@ -94,4 +134,18 @@ export default class PostView extends React.Component<any, any>{
             </>
         );
     }
+}
+
+// This function checks if the active
+// user liked the shown post, by iterating
+// through all the likes and checking if
+// the username is owner of one
+function checkUserLikedPost(likes: Like[]): boolean {
+    let username = localStorage.getItem("username");
+    for (let i=0; i<likes.length; i++) {
+        if (likes[0].owner === username) {
+            return true;
+        }
+    }
+    return false;
 }
