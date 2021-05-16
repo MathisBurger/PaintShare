@@ -17,6 +17,7 @@
     "react-async": "^10.0.1",
     "react-contenteditable": "^3.3.5",
     "react-dom": "^17.0.2",
+    "react-image-crop": "^8.6.9",
     "react-responsive": "^8.2.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",

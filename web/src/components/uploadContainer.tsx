@@ -41,7 +41,7 @@ export default function UploadContainer() {
                 </div>
                 <div className={style.bodyContainer}>
                     <div className={style.leftContainer}>
-                        <input type={"file"} onChange={e => renderImage(e)} id={"upload_post_input"} />
+                        <input type={"file"} onChange={e => renderImage(e)} id={"upload_post_input"} style={uploadedImage ? {display: "none"} : {display: "block"}} />
                         {uploadedImage ? <img src={imageSRC}  alt={""} /> : null}
                     </div>
                     <div className={style.rightContainer}>

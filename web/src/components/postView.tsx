@@ -103,7 +103,8 @@ export default class PostView extends React.Component<any, any>{
                         post: this.state.postInfo?.post,
                         comments: comments,
                         likes: this.state.postInfo?.likes
-                    } as GetPostData
+                    } as GetPostData,
+                    commentField: ""
                 });
             }
         }
