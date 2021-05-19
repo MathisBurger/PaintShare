@@ -27,6 +27,11 @@ pub async fn register(user: &user::User, conn: &Pool<MySql>) -> bool {
      unix
     ).execute(conn).await;
 
+    if &status.is_err() == &true {
+        println!("{:?}", &status.err().unwrap());
+        return false;
+    }
+
     status.is_ok()
 }
 

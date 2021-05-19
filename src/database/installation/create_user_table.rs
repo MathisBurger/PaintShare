@@ -14,9 +14,10 @@ pub async fn create_user_table(conn: &Pool<MySql>) {
     `num_follower` INT NOT NULL,
     `num_subscriptions` INT NOT NULL,
     `subscriptions` TEXT NOT NULL,
+    `profile_picture` TEXT NOT NULL,
     `created_at` BIGINT NOT NULL,
     PRIMARY KEY(`user_id`)
-    );").execute(conn).await;
+);").execute(conn).await;
     match resp {
         Ok(T) => println!("created user table"),
         Err(T) => println!("user table already exists")

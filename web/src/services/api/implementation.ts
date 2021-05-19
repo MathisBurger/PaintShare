@@ -76,6 +76,7 @@ export class RestImplementation {
             headers,
             body: reqBody,
             credentials: "include",
+            mode: "same-origin"
         });
 
         if (res.status === 401) {

@@ -1,7 +1,7 @@
 use dotenv::dotenv;
 use std::env;
 
-/// loads specific env from .env file
+/// loads specific env from .env.prod file
 pub fn load_param(name: &str) -> String {
     dotenv().ok();
     for (key, value) in env::vars() {

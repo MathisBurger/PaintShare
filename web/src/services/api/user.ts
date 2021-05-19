@@ -14,12 +14,16 @@ export class UserAPI {
     async login(username: string, password: string): Promise<boolean> {
         let resp = await fetch(`${PREFIX}/auth/login`, {
             method: "POST",
+            mode: "same-origin",
             headers: {
                 "Content-Type": "application/json"
             },
             credentials: 'include',
             body: JSON.stringify({username, password})
         });
+        console.log(resp.status);
+        console.log(resp.statusText);
+        console.log(resp.headers);
        return resp.status === 200;
     }
 

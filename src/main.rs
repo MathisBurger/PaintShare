@@ -5,6 +5,7 @@ use actix_web::{HttpServer, App, web, middleware as actix_middleware, HttpRespon
 use dotenv::dotenv;
 use sqlx::{mysql, Pool, MySql};
 use actix_cors::Cors;
+use actix_files::Files;
 
 mod database;
 mod utils;
@@ -37,7 +38,7 @@ async fn main() -> std::io::Result<()> {
         .await.expect("Cannot run migrations");
 
 
-    //database::service::init_tables(&conn).await;
+    database::service::init_tables(&conn).await;
 
 
     HttpServer::new(move || {
@@ -45,8 +46,8 @@ async fn main() -> std::io::Result<()> {
         .data(ServerData {db: conn.clone()})
         .wrap(actix_middleware::Logger::default())
         .wrap(Cors::default()
-            .allowed_origin("http://localhost:3000")
             .allow_any_method()
+            .allow_any_origin()
             .allow_any_header()
             .expose_any_header()
             .supports_credentials()
@@ -68,6 +69,12 @@ async fn main() -> std::io::Result<()> {
         .route("/api/post-api/get_post_data", web::get().to(endpoints::post::get_post_data::response))
         .route("/api/post-api/like_post", web::post().to(endpoints::post::like_post::response))
         .route("/api/post-api/comment_post", web::post().to(endpoints::post::comment_post::response))
+        // file server
+        .service(Files::new("/dashboard", "./build").index_file("index.html"))
+        .service(Files::new("/profile/*", "./build").index_file("index.html"))
+        .service(Files::new("/login", "./build").index_file("index.html"))
+        .service(Files::new("/register", "./build").index_file("index.html"))
+        .service(Files::new("/", "./build").index_file("index.html"))
     })
     .bind("0.0.0.0:8080")?
     .run()
