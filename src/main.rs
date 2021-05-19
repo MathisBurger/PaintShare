@@ -71,7 +71,8 @@ async fn main() -> std::io::Result<()> {
         .route("/api/post-api/comment_post", web::post().to(endpoints::post::comment_post::response))
         // file server
         .service(Files::new("/dashboard", "./build").index_file("index.html"))
-        .service(Files::new("/profile/*", "./build").index_file("index.html"))
+        .service(Files::new("/profile", "./build").index_file("index.html"))
+            .service(Files::new("/user/{id}", "./build").index_file("index.html"))
         .service(Files::new("/login", "./build").index_file("index.html"))
         .service(Files::new("/register", "./build").index_file("index.html"))
         .service(Files::new("/", "./build").index_file("index.html"))

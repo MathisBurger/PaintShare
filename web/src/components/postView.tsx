@@ -123,7 +123,7 @@ export default class PostView extends React.Component<any, any>{
                             <div className={style.postViewHeader}>
                                 <img src={this.state.profilePictureURL}  alt={"profile picture"} />
                                 <a
-                                    href={`${window.location.protocol}//${window.location.host}/profile/${this.state.userInfo?.displayname}`}
+                                    href={`${window.location.protocol}//${window.location.host}/user/${this.state.userInfo?.displayname}`}
                                 >
                                     {this.state.userInfo?.displayname}
                                 </a>
@@ -133,7 +133,7 @@ export default class PostView extends React.Component<any, any>{
                                     return (
                                         <div className={style.comment}>
                                             <a
-                                                href={`${window.location.protocol}//${window.location.host}/profile/${comment.owner}`}
+                                                href={`${window.location.protocol}//${window.location.host}/user/${comment.owner}`}
                                             >
                                                 {comment.owner}
                                             </a>
