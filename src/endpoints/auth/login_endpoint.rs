@@ -51,10 +51,8 @@ pub async fn response(
                     .add(Duration::new(432000, 0))
                 ))
                 .path("/")
-                .secure(true)// set to false for production
+                .secure(false)// set to false for production
                 .http_only(true)
-                // Samesite only for development
-                .same_site(SameSite::None)
                 .finish();
 
             web::HttpResponse::Ok()
