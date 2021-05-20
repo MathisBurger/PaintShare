@@ -62,3 +62,21 @@
         color: #dedede;
     }
 }
+
+@media only screen and (max-width: 800px) {
+    .sidebar {
+        width: 100vw;
+        height: 10vh;
+        position: absolute;
+        bottom: 0;
+        margin: 0;
+        padding: 0;
+        border-radius: 0;
+    }
+    .sidebarHeading {
+        display: none;
+    }
+    .sidebar ul {
+        flex-direction: row;
+    }
+}

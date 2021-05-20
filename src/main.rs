@@ -46,6 +46,7 @@ async fn main() -> std::io::Result<()> {
         .data(ServerData {db: conn.clone()})
         .wrap(actix_middleware::Logger::default())
         .wrap(Cors::default()
+            .allowed_origin("http://localhost:3000") // for production purposes
             .allow_any_method()
             .allow_any_origin()
             .allow_any_header()
@@ -72,7 +73,7 @@ async fn main() -> std::io::Result<()> {
         // file server
         .service(Files::new("/dashboard", "./build").index_file("index.html"))
         .service(Files::new("/profile", "./build").index_file("index.html"))
-            .service(Files::new("/user/{id}", "./build").index_file("index.html"))
+        .service(Files::new("/user/{id}", "./build").index_file("index.html"))
         .service(Files::new("/login", "./build").index_file("index.html"))
         .service(Files::new("/register", "./build").index_file("index.html"))
         .service(Files::new("/", "./build").index_file("index.html"))

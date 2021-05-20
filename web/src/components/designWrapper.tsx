@@ -64,6 +64,7 @@ export default function DesignWrapper(props: any) {
             screen = (
                 <>
                     {props.children}
+                    <Sidebar />
                 </>
             );
             break;

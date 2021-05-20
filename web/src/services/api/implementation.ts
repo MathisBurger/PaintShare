@@ -76,7 +76,7 @@ export class RestImplementation {
             headers,
             body: reqBody,
             credentials: "include",
-            mode: "same-origin"
+            mode: process.env.NODE_ENV === "development" ? "cors" : "same-origin"
         });
 
         if (res.status === 401) {

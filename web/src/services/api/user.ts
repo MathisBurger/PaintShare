@@ -14,7 +14,7 @@ export class UserAPI {
     async login(username: string, password: string): Promise<boolean> {
         let resp = await fetch(`${PREFIX}/auth/login`, {
             method: "POST",
-            mode: "same-origin",
+            mode: process.env.NODE_ENV === "development" ? "cors" : "same-origin",
             headers: {
                 "Content-Type": "application/json"
             },
