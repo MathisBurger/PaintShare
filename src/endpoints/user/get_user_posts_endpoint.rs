@@ -33,7 +33,6 @@ pub async fn response(
     } else {
 
         let user_req = utils::user_handler::get_user_from_request(&query, &verification, &data.db).await;
-
         if !user_req.0 {
             return web::HttpResponse::BadRequest().json(ErrorResponse { status: false, message: "no user given for request".to_string() })
         }
