@@ -82,6 +82,7 @@
     font-size: 1.2em;
     height: 100%;
 }
+
 .postViewCommentSection .comment a:hover {
     text-decoration: underline black;
 }
@@ -174,4 +175,33 @@
     font-weight: bold;
     font-size: 0.7em;
     margin: 0;
+}
+
+@media only screen and (max-width: 800px) {
+    .postViewContainer {
+        margin: 0;
+        padding: 0;
+        top: 50%;
+        width: 100vw;
+        height: 80vh;
+        flex-direction: column;
+    }
+    .postViewLeftContainer {
+        height: 100vw;
+        width: 100%;
+    }
+    .postViewRightContainer {
+        height: calc(100% - 100vw);
+        gap: 15px;
+    }
+    .postViewCommentSection {
+        width: 90vw;
+    }
+    .postViewWriteComment {
+        width: 90vw;
+    }
+    .postViewFooter {
+        width: 90vw;
+        grid-template-columns: repeat(3, calc(90vw / 3));
+    }
 }
