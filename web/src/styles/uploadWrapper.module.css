@@ -134,3 +134,15 @@
 .uploadContainer .bodyContainer .rightContainer button:hover {
     filter: brightness(1.1);
 }
+
+@media only screen and (max-width: 800px) {
+    .uploadContainer {
+        width: 90vw;
+    }
+    .uploadContainer .headContainer svg {
+        right: 0;
+    }
+    .uploadContainer .bodyContainer .rightContainer {
+        width: 40%;
+    }
+}
