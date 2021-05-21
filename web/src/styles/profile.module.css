@@ -110,11 +110,32 @@
 
 @media only screen and (max-width: 800px) {
     .profileOuterBox {
-        width: 95vw;
+        width: 100vw;
+        height: 90vh;
         border: none;
     }
     .profileBox img {
         width: 75px;
         height: 75px;
+    }
+    .profileBox {
+        grid-template-columns: 30% 70%;
+    }
+    .profileBox .rightBox {
+        width: 100%;
+    }
+    .profileBox .rightBox .upperBox {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+    .profileBox .rightBox .upperBox button {
+        font-family: "Roboto", sans-serif;
+        border: 1px solid rgba(0,0,0,0.1);
+        font-size: 1em;
+        padding: 1% 10%;
+        margin: 0;
+        border-radius: 3px;
+        transition: .3s;
     }
 }

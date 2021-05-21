@@ -33,7 +33,7 @@ pub async fn response(
     let cookie = request_utils::get_cookie(req, "refreshToken");
 
     if !cookie.0 {
-
+        println!("Nono");
         return web::HttpResponse::Unauthorized().finish();
     }
 
@@ -46,7 +46,7 @@ pub async fn response(
     };
 
     if !tkn.check_existence(&data.db).await {
-
+        println!("wanna reock");
         web::HttpResponse::Unauthorized().finish()
     } else {
 
