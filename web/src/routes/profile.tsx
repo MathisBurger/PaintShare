@@ -14,6 +14,8 @@ import {GetPostsResponse} from "../typings/api/GetPostsResponse";
 import PostComponent from "../components/post";
 import PostView from "../components/postView";
 import {User} from "../typings/api/models/user";
+import {CheckFollowStateResponse} from "../typings/api/CheckFollowState";
+import {UserInfo, userInfo} from "os";
 
 // This interface defines the types of the given
 // url params
@@ -27,11 +29,11 @@ export default function Profile() {
 
     const { name } = useParams<ParamTypes>();
 
-    const [url, changeURL] = useState("");
-    const [showUpload, changeShowUpload] = useState(false);
+    const [url, changeURL] = useState<string>("");
+    const [showUpload, changeShowUpload] = useState<boolean>(false);
 
-    const [showPostView, changeShowPostView] = useState(false);
-    const [showedPostID, changeShowedPostID] = useState(0);
+    const [showPostView, changeShowPostView] = useState<boolean>(false);
+    const [showedPostID, changeShowedPostID] = useState<number>(0);
 
     const [userInfo, changeUserInfo] = useState<User>({
         displayname: "",
@@ -39,7 +41,8 @@ export default function Profile() {
         num_subscriptions: 0,
         user_id: 0
     });
-    const [userInfoSet, changeUserInfoSet] = useState(false);
+    const [userInfoSet, changeUserInfoSet] = useState<boolean>(false);
+    const [subscriptionState, changeSubscriptionState] = useState<boolean>(false);
 
     const showPost = (postID: number) => {
         changeShowedPostID(postID);
@@ -68,7 +71,12 @@ export default function Profile() {
                     <div className={style.profileBox}>
                         <img src={url} alt={"profile picture"}/>
                         <div className={style.rightBox}>
-                            {profileBoxOptions(userInfo.displayname, window.location.pathname === "/profile")}
+                            {profileBoxOptions(
+                                userInfo.displayname,
+                                window.location.pathname === "/profile",
+                                subscriptionState,
+                                userInfo
+                            )}
                             <div className={style.lowerBox}>
                                 <div className={style.content}>
                                     <h1>{userInfo.num_follower}</h1>
@@ -113,13 +121,22 @@ export default function Profile() {
             }
             changeUserInfoSet(true);
         }
+        if (name !== undefined) {
+            let resp = (await new UserAPI().checkFollowState(userInfo.user_id)) as CheckFollowStateResponse;
+            changeSubscriptionState(resp.check_status);
+        }
     }
 }
 
 // This function handles whether the profile page is the
 // profile page of the logged in user, or another
 // profile page of another user
-function profileBoxOptions(name: string, ownProfile: boolean): any {
+function profileBoxOptions(
+    name: string,
+    ownProfile: boolean,
+    subscriptionState: boolean,
+    userInfo: User
+): any {
 
     if (ownProfile) {
         return (
@@ -131,7 +148,34 @@ function profileBoxOptions(name: string, ownProfile: boolean): any {
             </>
         );
     } else {
-        return <h1>{name}</h1>;
+        return (
+            <>
+                <div className={style.upperBox}>
+                    <h2>{name}</h2>
+                    <button
+                        style={{
+                        backgroundColor: subscriptionState ? "" : "#0083d8",
+                        color: subscriptionState ? "black" : "white",
+                        marginLeft: "0.5em",
+                        border: "none"
+                    }}
+                        onClick={() => {
+                            if (subscriptionState) {
+                                new UserAPI().unfollowUser(userInfo.user_id).then(() => {
+                                    window.location.reload();
+                                });
+                            } else {
+                                new UserAPI().followUser(userInfo.user_id).then(() => {
+                                    window.location.reload();
+                                });
+                            }
+                        }}
+                    >
+                        {subscriptionState ? "Unsubscribe" : "Subscribe"}
+                    </button>
+                </div>
+            </>
+        );
     }
 }
 

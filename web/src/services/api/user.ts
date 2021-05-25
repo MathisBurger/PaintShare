@@ -3,6 +3,7 @@ import {BaseResponse} from "../../typings/api/BaseResponse";
 import {GetPostsResponse} from "../../typings/api/GetPostsResponse";
 import {User} from "../../typings/api/models/user";
 import {Props} from "react";
+import {CheckFollowStateResponse} from "../../typings/api/CheckFollowState";
 
 const PREFIX = process.env.NODE_ENV === "development" ? "http://127.0.0.1:8080/api": "/api";
 
@@ -56,5 +57,27 @@ export class UserAPI {
     async getAllPosts(name: any): Promise<GetPostsResponse | BaseResponse> {
         const path = "/user-api/get_posts" + (name === undefined ? ("&user=" + name): "");
         return await RestImplementation.get<GetPostsResponse | BaseResponse>(path);
+    }
+
+    // This function queries the subscription
+    // state of the given user_id. It checks if
+    // the user who owns the session follows the user
+    // with the given user_id
+    async checkFollowState(user_id: number): Promise<CheckFollowStateResponse | BaseResponse> {
+        return await RestImplementation.get<CheckFollowStateResponse | BaseResponse>("/user-api/follow_state?user_id=" + user_id);
+    }
+
+    // This function requests to follow
+    // the user, identified by the given user_id.
+    // The status is being returned as a instance of BaseResponse
+    async followUser(user_id: number): Promise<BaseResponse> {
+        return await RestImplementation.post<BaseResponse>("/user-api/follow_user", {user_id: user_id});
+    }
+
+    // This function requests to unfollow
+    // the user, identified by the given user_id.
+    // The status is being returned as a instance of BaseResponse
+    async unfollowUser(user_id: number): Promise<BaseResponse> {
+        return await RestImplementation.post<BaseResponse>("/user-api/unfollow_user", {user_id: user_id});
     }
 }
