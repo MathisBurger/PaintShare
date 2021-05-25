@@ -101,6 +101,37 @@ impl User {
             .execute(conn).await.is_ok()
     }
 
+    /// This function tries to remove a subscription from
+    /// the given user. If the user has not subscribed
+    /// the other user, the function returns false.
+    /// Otherwise it returns the state of the action
+    pub async fn remove_subscription_from_user(conn: &Pool<MySql>, base_user: i32, to_remove: i32) -> bool {
+        let mut user = match User::new().get_user_by_id(base_user, conn).await {
+            Ok(t) => (true, t),
+            Err(e) => (false, User::new())
+        };
+        println!("{:?}", &user);
+        if !user.0 {
+            return false
+        }
+        if !check_duplicates(&user.1.subscriptions, to_remove) {
+            println!("jaja");
+            return false
+        }
+        let v = &user.1.subscriptions.split(" ").collect::<Vec<&str>>();
+        let mut new_subs = String::new();
+        for i in 0..v.len() {
+            if &v[i].trim().parse::<i32>().unwrap() != &to_remove {
+                if i != 0 {
+                    new_subs.push_str(" ");
+                }
+                new_subs.push_str(v[i].trim());
+            }
+        }
+        query!("UPDATE `user_accounts` SET `subscriptions`=? WHERE `user_id`=?", new_subs, base_user)
+            .execute(conn).await.is_ok()
+    }
+
     /// This function increases the number of follower
     /// of the given user by the given value
     /// without checking user existance
