@@ -110,12 +110,10 @@ impl User {
             Ok(t) => (true, t),
             Err(e) => (false, User::new())
         };
-        println!("{:?}", &user);
         if !user.0 {
             return false
         }
         if !check_duplicates(&user.1.subscriptions, to_remove) {
-            println!("jaja");
             return false
         }
         let v = &user.1.subscriptions.split(" ").collect::<Vec<&str>>();
