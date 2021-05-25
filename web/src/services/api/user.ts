@@ -4,6 +4,7 @@ import {GetPostsResponse} from "../../typings/api/GetPostsResponse";
 import {User} from "../../typings/api/models/user";
 import {Props} from "react";
 import {CheckFollowStateResponse} from "../../typings/api/CheckFollowState";
+import {SearchUserResponse} from "../../typings/api/SearchUserResponse";
 
 const PREFIX = process.env.NODE_ENV === "development" ? "http://127.0.0.1:8080/api": "/api";
 
@@ -79,5 +80,12 @@ export class UserAPI {
     // The status is being returned as a instance of BaseResponse
     async unfollowUser(user_id: number): Promise<BaseResponse> {
         return await RestImplementation.post<BaseResponse>("/user-api/unfollow_user", {user_id: user_id});
+    }
+
+    // This function fetches all user accounts with a displayname
+    // similar to the search value and returns them as the
+    // SearchUserResponse type
+    async searchUser(search: string): Promise<SearchUserResponse> {
+        return await RestImplementation.get<SearchUserResponse>("/user-api/search_user?searchword=" + search);
     }
 }
