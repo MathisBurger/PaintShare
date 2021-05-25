@@ -28,7 +28,7 @@ pub async fn response(
     let user_id: i32 = verification.1.get("user_id").unwrap().parse().unwrap();
     if !User::remove_subscription_from_user(&data.db, user_id, query.user_id).await {
         return web::HttpResponse::BadRequest()
-            .json(ErrorResponse { status: false, message: "Cannot add subscription".to_string() });
+            .json(ErrorResponse { status: false, message: "Cannot remove subscription".to_string() });
     }
 
     User::increase_follower_of_user(&data.db, query.user_id, -1).await;
