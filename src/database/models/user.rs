@@ -132,7 +132,7 @@ impl User {
 
     /// This function increases the number of follower
     /// of the given user by the given value
-    /// without checking user existance
+    /// without checking user existence
     pub async fn increase_follower_of_user(conn: &Pool<MySql>, user_id: i32, by: i32) {
         let new_follower = User::new()
             .get_user_by_id(user_id, conn).await.unwrap()
@@ -143,12 +143,21 @@ impl User {
 
     /// This function increases the number of subscriptions
     /// of the given user by the given value
-    /// without checking user existance
+    /// without checking user existence
     pub async fn increase_subscriptions_of_user(conn: &Pool<MySql>, user_id: i32, by: i32) {
         let new_subs = User::new()
             .get_user_by_id(user_id, conn).await.unwrap()
             .num_follower + by;
         query!("UPDATE `user_accounts` SET `num_subscriptions`=? WHERE `user_id`=?", new_subs, user_id)
             .execute(conn).await.unwrap();
+    }
+
+    /// This function returns all User, with a matching
+    /// username. It uses the mysql `%<word>%` syntax
+    /// to search through the user table
+    pub async fn search_user(conn: &Pool<MySql>, searchname: &String) -> Vec<User> {
+        let search: String = "%".to_owned() + searchname + "%";
+        query_as!(User, "SELECT * FROM `user_accounts` WHERE `displayname` LIKE ?", search)
+            .fetch_all(conn).await.unwrap()
     }
 }

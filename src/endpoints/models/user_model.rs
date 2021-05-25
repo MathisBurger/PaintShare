@@ -23,4 +23,14 @@ impl UserModel {
             num_subscriptions: user.num_subscriptions
         }
     }
+    /// This function uses the existing parse_model
+    /// function to parse an whole array of user
+    /// into output models
+    pub fn parse_models(users: Vec<User>) -> Vec<UserModel> {
+        let mut resp: Vec<UserModel> = vec![];
+        for el in users {
+            resp.push(UserModel::parse_model(el));
+        }
+        resp
+    }
 }

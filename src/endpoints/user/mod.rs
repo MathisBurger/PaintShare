@@ -5,5 +5,6 @@ pub mod get_user_information_endpoint;
 pub mod follow_user_endpoint;
 pub mod unfollow_user_endpoint;
 pub mod follow_state_endpoint;
+pub mod search_user_endpoint;
 
 

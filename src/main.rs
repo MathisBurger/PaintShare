@@ -68,6 +68,7 @@ async fn main() -> std::io::Result<()> {
         .route("/api/user-api/follow_user", web::post().to(endpoints::user::follow_user_endpoint::response))
         .route("/api/user-api/unfollow_user", web::post().to(endpoints::user::unfollow_user_endpoint::response))
         .route("/api/user-api/follow_state", web::get().to(endpoints::user::follow_state_endpoint::response))
+        .route("/api/user-api/search_user", web::get().to(endpoints::user::search_user_endpoint::response))
         // post API
         .route("/api/post-api/get_post_image", web::get().to(endpoints::post::get_post_image::response))
         .route("/api/post-api/get_post_data", web::get().to(endpoints::post::get_post_data::response))
