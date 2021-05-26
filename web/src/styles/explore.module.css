@@ -1,0 +1,106 @@
+.notFoundDialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.centeredPoop {
+    color: rgb(145, 145, 162);
+}
+
+.searchBox {
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    transform: translateX(-50%);
+    z-index: 20;
+    width: 50vw;
+    height: 50px;
+    border-radius: 10px;
+    border: 2px solid rgb(180, 180, 180);
+    outline: none;
+    font-size: 1.5em;
+    transition: .3s;
+}
+
+.searchBox:focus {
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+}
+
+.contentView {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -15%);
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.contentView .card {
+    width: 100%;
+    height: 150px;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    border: 1px solid rgb(180, 180, 180);
+    transition: .3s;
+    grid-template-rows: 100%;
+    place-items: center;
+}
+
+.contentView .card img {
+    border-radius: 50%;
+    border: 1px solid #acacac;
+    height: 50%;
+}
+
+.contentView .card .rightBox {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 30% 70%;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.contentView .card .rightBox .bottomBox {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    grid-template-columns: repeat(2, 50%);
+    grid-template-rows: 100%;
+}
+
+.contentView .card:hover {
+    box-shadow: 3px 3px 3px rgba(0,0,0,0.2);
+    border: 1px solid rgb(215, 215, 215);
+}
+
+.statusContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #e0e0e0;
+    width: 75px;
+    height: 75px;
+    border-radius: 3px;
+}
+
+.statusContent h1 {
+    font-size: 1.3em;
+    margin: 0;
+}
+
+.statusContent p {
+    font-weight: bold;
+    font-size: 0.7em;
+    margin: 0;
+}
