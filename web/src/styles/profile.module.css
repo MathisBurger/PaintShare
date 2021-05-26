@@ -98,6 +98,16 @@
     margin-right: 2px;
 }
 
+.noImagesBox {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 75% 25%;
+    place-items: center;
+    width: 100%;
+    height: 10%;
+    margin-top: 20%;
+}
+
 @media only screen and (max-width: 1265px) {
     .profileOuterBox {
         width: 70vw;

@@ -56,7 +56,7 @@ export class UserAPI {
     // post published by the user, who owns the given
     // profile.
     async getAllPosts(name: any): Promise<GetPostsResponse | BaseResponse> {
-        const path = "/user-api/get_posts" + (name === undefined ? ("&user=" + name): "");
+        const path = "/user-api/get_posts" + (name === undefined ? "" : ("&user=" + name));
         return await RestImplementation.get<GetPostsResponse | BaseResponse>(path);
     }
 

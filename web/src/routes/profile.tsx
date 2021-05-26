@@ -4,6 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import style from "../styles/profile.module.css";
 import {useHistory, useParams} from "react-router-dom";
 import {faUpload} from "@fortawesome/free-solid-svg-icons";
+import {faCamera} from "@fortawesome/free-solid-svg-icons";
 import {UserAPI} from "../services/api/user";
 import {getTempURL} from "../services/utils";
 import UploadContainer from "../components/uploadContainer";
@@ -53,7 +54,7 @@ export default function Profile() {
         changeShowPostView(false);
     }
 
-    const { data } = useAsync({promiseFn: new UserAPI().getAllPosts, name: undefined});
+    const { data } = useAsync({promiseFn: new UserAPI().getAllPosts, name: name});
 
     var image_data: Post[] = [];
     if (data?.status) {
@@ -90,11 +91,18 @@ export default function Profile() {
                         </div>
                     </div>
                     {handleUploadSection(name, changeShowUpload)}
-                    <PostGroup>
-                        {image_data.map((post, i) => {
-                            return <div onClick={e => showPost(post.id)}><PostComponent postID={post.id} clicker={showPost} /></div>
-                        })}
-                    </PostGroup>
+                    {image_data.length === 0 ? (
+                        <div className={style.noImagesBox}>
+                            <FontAwesomeIcon icon={faCamera} size={"3x"} />
+                            <h2>No uploaded images</h2>
+                        </div>
+                    ) : (
+                        <PostGroup>
+                            {image_data.map((post, i) => {
+                                return <div onClick={e => showPost(post.id)}><PostComponent postID={post.id} clicker={showPost} /></div>
+                            })}
+                        </PostGroup>
+                    )}
                 </div>
             </DesignWrapper>
         </>
