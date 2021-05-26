@@ -37,49 +37,57 @@ pub async fn response(
         Ok(web::HttpResponse::Unauthorized().json(ErrorResponse { status: false, message: "invalid access token".to_string() }))
     } else {
 
+        let mut loopFinished = false;
+
         // checks if file was sent via multipart/form-data
         while let Ok(Some(mut field)) = payload.try_next().await {
+            if !loopFinished {
+                let content_type = field.content_disposition().unwrap();
+                let filetype = content_type.get_filename().unwrap().split(".").collect::<Vec<&str>>().last().unwrap().to_string();
+                // checks if file has allowed extension
+                let filetype_allowed = match filetype.clone().as_str() {
+                    "jpeg" => true,
+                    "jpg" => true,
+                    "png" => true,
+                    _ => false
+                };
 
-            let content_type = field.content_disposition().unwrap();
-            let filetype = content_type.get_filename().unwrap().split(".").collect::<Vec<&str>>().last().unwrap().to_string();
-            // checks if file has allowed extension
-            let filetype_allowed = match filetype.clone().as_str() {
-                "jpeg" => true,
-                "jpg" => true,
-                "png" => true,
-                _ => false
-            };
+
+                if !filetype_allowed {
+                    return Ok(HttpResponse::BadRequest().json(ErrorResponse {status: false, message: "Unallowed filetype".to_string() }));
+                }
 
 
-            if !filetype_allowed {
-                return Ok(HttpResponse::BadRequest().json(ErrorResponse {status: false, message: "Unallowed filetype".to_string() }));
+                let filename = storage::generate_post_path();
+                let filepath = format!("./data/posts/{}.{}", sanitize_filename::sanitize(&filename), filetype);
+                let given_dest = String::from(&filepath);
+
+                let mut f = web::block(|| std::fs::File::create(filepath))
+                    .await
+                    .unwrap();
+
+                while let Some(chunk) = field.next().await {
+                    let data = chunk.unwrap();
+                    f = web::block(move || f.write_all(&data).map(|_| f)).await?;
+                }
+
+                // add post to database
+                Post::create_new(
+                    &data.db,
+                    validation.1.get("user_id").unwrap().parse().unwrap(),
+                    &query.comment,
+                    &query.tags,
+                    given_dest
+                ).await;
+
+                loopFinished = true;
+
+                return Ok(web::HttpResponse::Ok()
+                    .json(ErrorResponse {status: true, message: "Successfully uploaded new image".to_string()}));
+            } else {
+                return Ok(web::HttpResponse::Ok()
+                    .json(ErrorResponse { status: false, message: "You can only upload one file".to_string()}));
             }
-
-
-            let filename = storage::generate_post_path();
-            let filepath = format!("./data/posts/{}.{}", sanitize_filename::sanitize(&filename), filetype);
-            let given_dest = String::from(&filepath);
-
-            let mut f = web::block(|| std::fs::File::create(filepath))
-                .await
-                .unwrap();
-
-            while let Some(chunk) = field.next().await {
-                let data = chunk.unwrap();
-                f = web::block(move || f.write_all(&data).map(|_| f)).await?;
-            }
-
-            // add post to database
-            Post::create_new(
-            &data.db,
-            validation.1.get("user_id").unwrap().parse().unwrap(),
-            &query.comment,
-            &query.tags,
-            given_dest
-            ).await;
-
-            return Ok(web::HttpResponse::Ok()
-                .json(ErrorResponse {status: true, message: "Successfully uploaded new image".to_string()}));
         }
 
 
