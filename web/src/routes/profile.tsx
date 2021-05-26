@@ -62,7 +62,6 @@ export default function Profile() {
     }
 
     lazyLoader(name);
-
     return (
         <>
             {showPostView ? <PostView postID={showedPostID} closer={closePostView}/> : null}
